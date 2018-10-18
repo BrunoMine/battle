@@ -12,11 +12,18 @@
 -- Tabela de participantes
 battle.ingame = {}
 
+-- Status de jogo
+battle.game_status = false
+battle.game_number = 0
+
 -- Modo de jogo selecionado
 battle.selec_mode = "shg"
 
 -- Arena selecionada
 battle.selec_arena = "default"
+
+-- Controle da Partida
+battle.partida = {}
 
 -- Spawn
 local lobby_pos = minetest.string_to_pos(minetest.settings:get("static_spawnpoint") or "0 20 0")

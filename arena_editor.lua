@@ -35,6 +35,8 @@ local update_game_mode_params = function(id, n)
 	game_mode_params[n].dados["Titulo"] = {
 		name = "Titulo",
 		format = "string",
+		desc = "Nome exibido ao usuario",
+		index_name = "titulo",
 	}
 	-- Demais parametros
 	for id,d in pairs(battle.modes[id].params) do
@@ -101,8 +103,41 @@ local acessar = function(player)
 	
 	-- Painel de edição de parâmetro
 	local dados_param = game_mode_params[ac.modo].dados[game_mode_params[ac.modo].tbn[ac.param]]
-	formspec = formspec 
-		.."label[0,2;"..dados_param.name.."]"
+	local dados_arena = {}
+	if table.maxn(arenas_tbn) >= 1 then
+		dados_arena = battle.arena.tb[arenas_tb[arenas_tbn[ac.arena]]]
+	end
+	
+	-- String
+	if dados_param.format == "string" then
+		formspec = formspec
+			.."field[0.3,2.8;4.5,1;texto;"..dados_param.name..";"..(dados_arena.titulo or "-").."]"
+			.."button[0,3.4;4.5,1;salvar_string;Salvar]"
+			.."textarea[0.3,4.4;4.5,4.5;;"..dados_param.desc..";]"
+			
+	-- Int
+	elseif dados_param.format == "int" then
+		formspec = formspec 
+			.."field[0.3,2.8;4.5,1;numero;"..dados_param.name..";"..(dados_arena.titulo or "-").."]"
+			.."button[0,3.4;4.5,1;salvar_int;Salvar]"
+			.."textarea[0.3,4.4;4.5,4.5;;"..dados_param.desc..";]"
+	
+	-- Coordenada
+	elseif dados_param.format == "pos" then
+		local stpos = dados_arena[dados_param.index_name] or "-"
+		if stpos ~= "-" then
+			stpos = minetest.pos_to_string(stpos)
+		end
+		formspec = formspec 
+			.."label[0,2;"..dados_param.name.."]"
+			.."label[0,2.7;"..stpos.."]"
+			.."button_exit[0,3.4;2.5,1;redefinir_pos;Redefinir]"
+			.."button[2.5,3.4;2,1;teleportar;Teleportar]"
+			.."textarea[0.3,4.4;4.5,4.5;;"..dados_param.desc..";]"
+		
+		-- Salva coordenada para teleportar
+		ac.pos_vista = dados_arena[dados_param.index_name]
+	end
 	
 	
 	minetest.show_formspec(name, "battle:arena_editor", formspec)
@@ -113,7 +148,6 @@ end
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if formname == "battle:arena_editor" then
 		local name = player:get_player_name()
-		minetest.chat_send_all(dump(fields))
 		
 		-- Escolher arena
 		if fields.arena and fields.arena ~= "" and acessos[name].arena ~= arenas_tbnr[fields.arena] then
@@ -139,6 +173,46 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			acessar(player)
 			return
 		end
+		
+		-- Teleportar para coordenada
+		if fields.teleportar and acessos[name].pos_vista then
+			player:setpos()
+			return
+		end
+		
+		-- Salvar string
+		if fields.salvar_string and fields.texto ~= "" and table.maxn(arenas_tbn) >= 1 then
+			local ac = acessos[name]
+			local dados_param = game_mode_params[ac.modo].dados[game_mode_params[ac.modo].tbn[ac.param]]
+			battle.arena.tb[arenas_tb[arenas_tbn[ac.arena]]][dados_param.index_name] = fields.texto
+			battle.arena.salvar_bd()
+			acessar(player)
+			return
+		end
+		
+		-- Salvar int
+		if fields.salvar_int and tonumber(fields.numero) and table.maxn(arenas_tbn) >= 1 then
+			local ac = acessos[name]
+			local dados_param = game_mode_params[ac.modo].dados[game_mode_params[ac.modo].tbn[ac.param]]
+			battle.arena.tb[arenas_tb[arenas_tbn[ac.arena]]][dados_param.index_name] = tonumber(fields.texto)
+			battle.arena.salvar_bd()
+			acessar(player)
+			return
+		end
+		
+		-- Redefinir pos
+		if fields.redefinir_pos and table.maxn(arenas_tbn) >= 1 then
+			local ac = acessos[name]
+			local dados_param = game_mode_params[ac.modo].dados[game_mode_params[ac.modo].tbn[ac.param]]
+			ac.find_pos_param = dados_param.index_name
+			return
+		end
+		
+		-- Criar arena
+		if fields.criar then
+			acessos[name].new_pos1 = true
+			minetest.chat_send_player(name, "Bata no primeiro limite da arena")
+		end
 	end
 end)
 
@@ -149,7 +223,7 @@ minetest.register_craftitem("battle:arena_editor", {
 	inventory_image = "battle_arena_editor.png",
 	on_use = function(itemstack, user, pointed_thing)
 		local name = user:get_player_name()
-	
+		
 		-- Verificar privilegio de acesso
 		if minetest.check_player_privs(name, {server=true}) ~= true then
 			minetest.chat_send_player(name, "Acesso negado.")
@@ -163,6 +237,44 @@ minetest.register_craftitem("battle:arena_editor", {
 				param = 1,
 				arena = 1,
 			}
+		end
+		
+		-- Verifica se estava redefinindo algum parametro
+		if acessos[name].find_pos_param then
+			if pointed_thing.under then
+				battle.arena.tb[arenas_tb[arenas_tbn[acessos[name].arena]]][acessos[name].find_pos_param] = battle.c.copy_tb(pointed_thing.under)
+				acessos[name].find_pos_param = nil
+				minetest.chat_send_player(name, "Parametro de coordenada definido")
+				battle.arena.salvar_bd()
+				return
+			else
+				minetest.chat_send_player(name, "Precisa bater num bloco na coordenada desejada")
+				return			
+			end
+		end
+		
+		-- Verifica se está definindo 
+		if acessos[name].new_pos1 == true then
+			if pointed_thing.under then
+				acessos[name].new_pos1 = battle.c.copy_tb(pointed_thing.under)
+				acessos[name].new_pos2 = true
+				minetest.chat_send_player(name, "Primeiro limite definido. Bata no segundo limite da arena")
+				return
+			else
+				minetest.chat_send_player(name, "Precisa bater num bloco na coordenada desejada")
+				return
+			end
+		end
+		if acessos[name].new_pos2 == true then
+			if pointed_thing.under then
+				acessos[name].new_pos2 = battle.c.copy_tb(pointed_thing.under)
+				battle.registrar_arena(acessos[name].new_pos1, acessos[name].new_pos2)
+				minetest.chat_send_player(name, "Arena "..battle.arena.total.." criada. Acesse o Editor para ajustar parametros")
+				return
+			else
+				minetest.chat_send_player(name, "Precisa bater num bloco na coordenada desejada")
+				return
+			end
 		end
 		
 		minetest.after(0.8, acessar, user)

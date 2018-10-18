@@ -20,3 +20,8 @@ battle.c.count_tb = function(tb)
 	end
 	return n
 end
+
+-- Copiar tabela
+battle.c.copy_tb = function(tb)
+	return minetest.deserialize(minetest.serialize(tb))
+end

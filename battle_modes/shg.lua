@@ -30,6 +30,7 @@ battle.modes.shg.params = {
 		name = "Spawn da Partida",
 		format = "pos",
 		desc = "Coordenada onde os jogadores vão surgir no inicio da partida",
+		index_name = "spawn",
 	},
 }
 
@@ -49,6 +50,32 @@ battle.modes.shg.check_arena = function(arena)
 	return true
 end
 
+local check_game = function(game_number, tempo)
+	
+	-- Verifica numero do jogo
+	if battle.game_number ~= game_number then
+		return
+	end
+	
+	-- Verifica tempo
+	if tempo >= 600 then
+		return
+	end
+	
+	-- Verificar se ja acabaram todos os jogadores
+	if battle.game_status == false then
+		return
+	end
+	
+	-- Verificar se ainda tem jogador em jogo
+	if battle.c.count_tb(battle.ingame) == 0 then
+		return 
+	end
+	
+	-- Continua loop
+	minetest.after(30, check_game, battle.game_number, tempo+30)
+end
+
 -- Iniciar batalha
 battle.modes.shg.start = function()
 
@@ -58,5 +85,30 @@ battle.modes.shg.start = function()
 		if c == false then return false, msg end
 	end
 	
+	-- Arena
+	local arena = battle.arena.tb[arena]
+	
+	-- Teleporta jogadores para spawn
+	for _,name in pairs(battle.ingame) do
+		minetest.get_player_by_name(name):setpos(arena.spawn)
+	end
+	
+	battle.game_status = true
+	battle.game_number = battle.game_number + 1
+	
+	-- Iniciar loop de checagem
+	minetest.after(30, check_game, battle.game_number, 30)
+	
+	minetest.chat_send_all(name, "Partida iniciada")
+	
 	return true
 end
+
+-- Se desconectar sai do jogo atual
+minetest.register_on_leaveplayer(function(player)
+	if battle.selec_mode == "shg" and battle.game_status == true then
+		local name = player:get_player_name()
+		battle.ingame[name] = nil
+	end
+end)
+

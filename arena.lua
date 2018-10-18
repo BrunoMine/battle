@@ -20,17 +20,37 @@ if battle.bd.verif("arenas", "tb") == true then
 	battle.arena.tb = battle.bd.pegar("arenas", "tb")
 end
 
+-- Salvar arenas
+battle.arena.salvar_bd = function()
+	battle.bd.salvar("arenas", "tb", battle.arena.tb)
+	battle.bd.salvar("arenas", "total", battle.arena.total)
+end
+
+-- Numero de arenas registradas (independente de já terem sido excluidas)
+battle.arena.total = 0
+if battle.bd.verif("arenas", "total") == true then
+	battle.arena.total = battle.bd.pegar("arenas", "total")
+else
+	battle.bd.salvar("arenas", "total", battle.arena.total)
+end
+
 -- Registrar arena
 --[[
 	["nome_arena"] = {
 		titulo = "Titulo",
-		tipo = "nome_tipo",
 		pos1 = <pos1>,
 		pos2 = <pos2>,
 	}
   ]]
-battle.registrar_arena = function(name, def)
-	battle.arena.tb[name] = def
+battle.registrar_arena = function(pos1, pos2)
+	battle.arena.total = battle.arena.total + 1
+	local new_id = "arena_"..battle.arena.total
+	battle.arena.tb[new_id] = {
+		titulo = "Arena 1",
+		pos1 = pos1,
+		pos2 = pos2
+	}
 	-- Salvar no banco de dados permanente
-	battle.bd.salvar("arenas", "tb", battle.arena.tb)
+	battle.arena.salvar_bd()
 end
+

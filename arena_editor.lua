@@ -93,11 +93,18 @@ local acessar = function(player)
 	update_game_modes()
 	update_arenas()
 	
+	-- Redirecionar para arena
+	if ac.ver_arena then
+		ac.arena = arenas_tbnr[battle.arena.tb[ac.ver_arena].titulo]
+		ac.ver_arena = nil
+	end
+	
 	local formspec = "size[10,8]"
 		..default.gui_bg
 		..default.gui_bg_img
 		.."dropdown[0,1.1;10.5,1;modo;"..game_modes_st..";"..ac.modo.."]"
-		.."dropdown[0,0.1;7,1;arena;"..arenas_st..";"..ac.arena.."]"
+		.."dropdown[0,0.1;5,1;arena;"..arenas_st..";"..ac.arena.."]"
+		.."button_exit[4.9,0;2,1;deletar;Deletar]"
 		.."button_exit[6.9,0;3,1;criar;Criar Arena]"
 		.."textlist[4.75,2;5,6;param;"..game_mode_params[ac.modo].st..";"..ac.param.."]"
 	
@@ -108,19 +115,26 @@ local acessar = function(player)
 		dados_arena = battle.arena.tb[arenas_tb[arenas_tbn[ac.arena]]]
 	end
 	
+	-- Caixa de habilitar jogo
+	if dados_arena.modes and dados_arena.modes[battle.selec_mode] == true then
+		formspec = formspec .. "checkbox[0,7.4;status_game;Habilitar jogo;true]"
+	else
+		formspec = formspec .. "checkbox[0,7.4;status_game;Habilitar jogo;false]"
+	end
+	
 	-- String
 	if dados_param.format == "string" then
 		formspec = formspec
 			.."field[0.3,2.8;4.5,1;texto;"..dados_param.name..";"..(dados_arena.titulo or "-").."]"
 			.."button[0,3.4;4.5,1;salvar_string;Salvar]"
-			.."textarea[0.3,4.4;4.5,4.5;;"..dados_param.desc..";]"
+			.."textarea[0.3,4.4;4.5,3.5;;"..dados_param.desc..";]"
 			
 	-- Int
 	elseif dados_param.format == "int" then
 		formspec = formspec 
 			.."field[0.3,2.8;4.5,1;numero;"..dados_param.name..";"..(dados_arena.titulo or "-").."]"
 			.."button[0,3.4;4.5,1;salvar_int;Salvar]"
-			.."textarea[0.3,4.4;4.5,4.5;;"..dados_param.desc..";]"
+			.."textarea[0.3,4.4;4.5,3.5;;"..dados_param.desc..";]"
 	
 	-- Coordenada
 	elseif dados_param.format == "pos" then
@@ -133,7 +147,7 @@ local acessar = function(player)
 			.."label[0,2.7;"..stpos.."]"
 			.."button_exit[0,3.4;2.5,1;redefinir_pos;Redefinir]"
 			.."button[2.5,3.4;2,1;teleportar;Teleportar]"
-			.."textarea[0.3,4.4;4.5,4.5;;"..dados_param.desc..";]"
+			.."textarea[0.3,4.4;4.5,3.5;;"..dados_param.desc..";]"
 		
 		-- Salva coordenada para teleportar
 		ac.pos_vista = dados_arena[dados_param.index_name]
@@ -149,7 +163,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if formname == "battle:arena_editor" then
 		local name = player:get_player_name()
 		
-		-- Escolher arena
+		-- Escolher arena	
 		if fields.arena and fields.arena ~= "" and acessos[name].arena ~= arenas_tbnr[fields.arena] then
 			acessos[name].arena = arenas_tbnr[fields.arena]
 			acessos[name].modo = 1
@@ -176,7 +190,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		
 		-- Teleportar para coordenada
 		if fields.teleportar and acessos[name].pos_vista then
-			player:setpos()
+			player:setpos(acessos[name].pos_vista)
 			return
 		end
 		
@@ -184,6 +198,15 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		if fields.salvar_string and fields.texto ~= "" and table.maxn(arenas_tbn) >= 1 then
 			local ac = acessos[name]
 			local dados_param = game_mode_params[ac.modo].dados[game_mode_params[ac.modo].tbn[ac.param]]
+			if dados_param.index_name == "titulo" and arenas_tb[fields.texto] ~= nil then
+				minetest.chat_send_player(name, "Esse titulo de arena ja foi usado")
+				acessar(player)
+				return
+			end
+			-- Redireciona para novo titulo
+			if dados_param.index_name == "titulo" then
+				ac.ver_arena = arenas_tb[arenas_tbn[ac.arena]]
+			end
 			battle.arena.tb[arenas_tb[arenas_tbn[ac.arena]]][dados_param.index_name] = fields.texto
 			battle.arena.salvar_bd()
 			acessar(player)
@@ -195,6 +218,25 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			local ac = acessos[name]
 			local dados_param = game_mode_params[ac.modo].dados[game_mode_params[ac.modo].tbn[ac.param]]
 			battle.arena.tb[arenas_tb[arenas_tbn[ac.arena]]][dados_param.index_name] = tonumber(fields.texto)
+			battle.arena.salvar_bd()
+			acessar(player)
+			return
+		end
+		
+		-- Habilitar modo de jogo
+		if fields.status_game then
+			if table.maxn(arenas_tbn) == 0 then
+				acessar(player)
+				return
+			end
+			local ac = acessos[name]
+			local dados_param = game_mode_params[ac.modo].dados[game_mode_params[ac.modo].tbn[ac.param]]
+			local v = false
+			if fields.status_game == "true" then v = true end
+			if not battle.arena.tb[arenas_tb[arenas_tbn[ac.arena]]].modes then
+				battle.arena.tb[arenas_tb[arenas_tbn[ac.arena]]].modes = {}
+			end
+			battle.arena.tb[arenas_tb[arenas_tbn[ac.arena]]].modes[game_modes_tb[game_modes_tbn[ac.modo]]] = v
 			battle.arena.salvar_bd()
 			acessar(player)
 			return
@@ -212,6 +254,15 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		if fields.criar then
 			acessos[name].new_pos1 = true
 			minetest.chat_send_player(name, "Bata no primeiro limite da arena")
+			return
+		end
+		
+		-- Deletar arena
+		if fields.deletar then
+			battle.deletar_arena(arenas_tb[arenas_tbn[acessos[name].arena]])
+			minetest.chat_send_player(name, "Arena Deletada")
+			acessos[name] = nil
+			return
 		end
 	end
 end)

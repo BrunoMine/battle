@@ -16,17 +16,24 @@ battle.ingame = {}
 battle.game_status = false
 battle.game_number = 0
 
+-- Inicio automatico da batalha
+battle.auto_start = false
+if minetest.settings:get("battle_enable_auto_start") == "true" then
+	battle.auto_start = true
+end
+
 -- Modo de jogo selecionado
-battle.selec_mode = "shg"
+battle.selec_mode = minetest.settings:get("battle_game_mode") or "shg"
 
 -- Arena selecionada
-battle.selec_arena = "default"
+battle.selec_arena = minetest.settings:get("battle_arena") or ""
 
 -- Controle da Partida
 battle.partida = {}
 
 -- Spawn
 local lobby_pos = minetest.string_to_pos(minetest.settings:get("static_spawnpoint") or "0 20 0")
+
 
 -- Configura novos jogadores
 minetest.register_on_newplayer(function(player)
@@ -47,6 +54,7 @@ minetest.register_on_joinplayer(function(player)
 	-- Não está fazendo nada
 	else
 		player:set_attribute("status", "wait")
+		--set_lobby_inv(player)
 		player:setpos(lobby_pos)
 	end
 	
@@ -87,8 +95,34 @@ minetest.register_chatcommand("start", {
 		local r, msg = battle.start()
 		if r == false then
 			minetest.chat_send_player(name, "Impossivel inicar partida. "..msg)
+			return
 		end
-		minetest.chat_send_player(name, "Partida iniciada")
+		minetest.chat_send_all("Partida iniciada")
 	end,
 })
 
+-- Receptor de campos
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+	if fields.play_battle then
+		local name = player:get_player_name()
+		
+		-- Partida ja em curso
+		if battle.game_status == true then
+			minetest.chat_send_player(name, "Aguarde o final da partida atual")
+			return
+		end
+		
+		local gm = battle.modes[battle.selec_mode]
+		
+		-- Verifica se tem vagas
+		if battle.c.count_tb(battle.ingame) > gm.max_players then
+			minetest.chat_send_player(name, "Todas as vagas dessa batalha ja foram preenchidas")
+			return
+		end
+		
+		-- Inscreve
+		battle.ingame[name] = player
+		minetest.chat_send_player(name, "Foste inscrito para a proxima batalha, aguarde")
+		return
+	end
+end)

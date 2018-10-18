@@ -73,7 +73,7 @@ local check_game = function(game_number, tempo)
 	end
 	
 	-- Continua loop
-	minetest.after(30, check_game, battle.game_number, tempo+30)
+	minetest.after(30, check_game, battle.game_number, tempo+30) -- ERRADOOOOOOOOOOOOOOOOOOOOOOO
 end
 
 -- Iniciar batalha
@@ -86,11 +86,12 @@ battle.modes.shg.start = function()
 	end
 	
 	-- Arena
-	local arena = battle.arena.tb[arena]
+	local arena = battle.arena.tb[battle.selec_arena]
 	
 	-- Teleporta jogadores para spawn
-	for _,name in pairs(battle.ingame) do
-		minetest.get_player_by_name(name):setpos(arena.spawn)
+	for name,player in pairs(battle.ingame) do
+		player:setpos(arena.spawn)
+		sfinv.set_player_inventory_formspec(player)
 	end
 	
 	battle.game_status = true
@@ -98,8 +99,6 @@ battle.modes.shg.start = function()
 	
 	-- Iniciar loop de checagem
 	minetest.after(30, check_game, battle.game_number, 30)
-	
-	minetest.chat_send_all(name, "Partida iniciada")
 	
 	return true
 end

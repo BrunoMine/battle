@@ -16,13 +16,16 @@ local modpath = minetest.get_modpath("battle")
 
 dofile(modpath.."/common.lua")
 dofile(modpath.."/banco_de_dados.lua")
-dofile(modpath.."/lobby.lua")
-dofile(modpath.."/arena.lua")
-dofile(modpath.."/arena_editor.lua")
 
 -- Modos de batalhas
 battle.modes = {}
 dofile(modpath.."/battle_modes/shg.lua")
+
+dofile(modpath.."/lobby.lua")
+dofile(modpath.."/lobby_inv.lua")
+dofile(modpath.."/arena.lua")
+dofile(modpath.."/arena_editor.lua")
+dofile(modpath.."/auto_start.lua")
 
 --dofile(modpath.."/tradutor.lua")
 

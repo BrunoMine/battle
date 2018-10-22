@@ -28,23 +28,79 @@ battle.selec_mode = minetest.settings:get("battle_game_mode") or "shg"
 -- Arena selecionada
 battle.selec_arena = minetest.settings:get("battle_arena") or ""
 
--- Controle da Partida
-battle.partida = {}
-
 -- Spawn
 local lobby_pos = minetest.string_to_pos(minetest.settings:get("static_spawnpoint") or "0 20 0")
 
+-- Registra modelo de lobby
+player_api.register_model("lobby.obj", {
+	animation_speed = 30,
+	textures = {"lobby.png"},
+	animations = {
+		-- Standard animations.
+		stand     = {x = 0,   y = 1},
+		lay       = {x = 0,   y = 1},
+		walk      = {x = 0,   y = 1},
+		mine      = {x = 0,   y = 1},
+		walk_mine = {x = 0,   y = 1},
+		sit       = {x = 0,   y = 1},
+	},
+	collisionbox = {-0.001, -0.001, -0.001, 0.001, 0.001, 0.001},
+	stepheight = 0.1,
+	eye_height = 0.1,
+})
 
--- Configura novos jogadores
-minetest.register_on_newplayer(function(player)
-	if not player then return end
-	player:set_attribute("status", "wait")
-end)
+
+-- Colocar jogador no lobby
+battle.join_lobby = function(player)
+	local name = player:get_player_name()
+	
+	-- Define modelo de animação
+	player_api.set_model(player, "lobby.obj")
+	
+	-- Da privilegio de voô e mantem voando
+	battle.c.grant_privs(name, {fly=true, noclip=true})
+	
+	-- Oculta nome
+	player:set_nametag_attributes({color = {a = 0, r = 255, g = 255, b = 255}})
+	
+	-- Inventario e privilegios 
+	-- Moderador
+	if minetest.check_player_privs(name, {server=true}) == false then
+		battle.set_normal_lobby_inv(player)
+		battle.c.revoke_privs(name, {interact=true})
+	end
+	
+	-- Inscreve para a proxima partida automaticamente se definido
+	if battle.auto_join == true 
+		and battle.game_status == false
+		and minetest.check_player_privs(name, {server=true}) == false 
+	then
+		battle.ingame[name] = true
+	end
+	
+	-- Coordenada
+	player:setpos(lobby_pos)
+end
+
+-- Tirar jogador do lobby
+battle.leave_lobby = function(player)
+	local name = player:get_player_name()
+	
+	-- Restaura caracteristicas do jogador comum
+	battle.player.reset(player)
+	
+	-- Exibe nome
+	player:set_nametag_attributes({color = {a = 255, r = 255, g = 255, b = 255}})
+	
+	-- Remove privilegios do lobby
+	battle.c.revoke_privs(name, {fly=true, noclip=true, interact=true})
+	
+end
+
 
 -- Direciona o jogador ao entrar no servidor
 minetest.register_on_joinplayer(function(player)
 	if not player then return end
-	local status = player:get_attribute("status")
 	local name = player:get_player_name()
 	
 	-- Verifica se está em jogo
@@ -53,9 +109,7 @@ minetest.register_on_joinplayer(function(player)
 		
 	-- Não está fazendo nada
 	else
-		player:set_attribute("status", "wait")
-		--set_lobby_inv(player)
-		player:setpos(lobby_pos)
+		battle.join_lobby(player)
 	end
 	
 end)
@@ -85,6 +139,22 @@ battle.start = function()
 	end
 	
 	return true
+end
+
+-- Encerra batalha
+battle.finish = function()
+	
+	battle.game_status = false
+	
+	-- Inscreve todos jogadores que estao aguardando
+	if battle.auto_join == true then
+		for _,player in ipairs(minetest.get_connected_players()) do
+			local name = player:get_player_name()
+			if minetest.check_player_privs(name, {server=true}) == false then
+				battle.ingame[name] = true
+			end
+		end
+	end
 end
 
 

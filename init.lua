@@ -12,6 +12,12 @@
 -- Tabela Global
 battle = {}
 
+-- Inscrever jogadores automaticamente para a batalha
+battle.auto_join = true
+if minetest.settings:get("battle_enable_auto_join_battle") == "false" then
+	battle.auto_join = false
+end
+
 local modpath = minetest.get_modpath("battle")
 
 dofile(modpath.."/common.lua")
@@ -21,6 +27,7 @@ dofile(modpath.."/banco_de_dados.lua")
 battle.modes = {}
 dofile(modpath.."/battle_modes/shg.lua")
 
+dofile(modpath.."/player.lua")
 dofile(modpath.."/lobby.lua")
 dofile(modpath.."/lobby_inv.lua")
 dofile(modpath.."/arena.lua")

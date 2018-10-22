@@ -25,3 +25,28 @@ end
 battle.c.copy_tb = function(tb)
 	return minetest.deserialize(minetest.serialize(tb))
 end
+
+-- Limpar inventario
+battle.c.clear_inv = function(inv, listname)
+	for i=1, inv:get_size(listname) do
+		inv:set_stack(listname, i, '')
+	end
+end
+
+-- Adicionar privilegios
+battle.c.grant_privs = function(name, privs)
+	local p = minetest.get_player_privs(name)
+	for n,d in pairs(privs) do
+		p[n] = true
+	end
+	minetest.set_player_privs(name, p)
+end
+
+-- Remove privilegios
+battle.c.revoke_privs = function(name, privs)
+	local p = minetest.get_player_privs(name)
+	for n,d in pairs(privs) do
+		p[n] = nil
+	end
+	minetest.set_player_privs(name, p)
+end

@@ -10,40 +10,25 @@
   ]]
 
 -- Formspec de jogador normal
-local set_lobby_normal_inv = function(player)
-	local formspec = "size[3,1]"
-		..default.gui_bg
-		..default.gui_bg_img
-		.."button_exit[0,0;3,1;play_battle;Jogar]"
+battle.set_normal_lobby_inv = function(player)
+	if battle.auto_join == false then 
+		local formspec = "size[3,1]"
+			..default.gui_bg
+			..default.gui_bg_img
+			.."button_exit[0,0;3,1;play_battle;Jogar]"
+	else
+		local formspec = "size[7,1]"
+			..default.gui_bg
+			..default.gui_bg_img
+			.."label[0,0;;Aguarde a proxima partida]"
+	end
 	player:set_inventory_formspec(formspec)
 end
 
 -- Formspec de moderador
-local set_lobby_staff_inv = function(player)
+battle.set_staff_lobby_inv = function(player)
 	return
 end
-
--- Ajusta inventario ao conectar
-minetest.register_on_joinplayer(function(player)
-	if not player then return end
-	local status = player:get_attribute("status")
-	local name = player:get_player_name()
-	
-	-- Verifica se está em jogo
-	if status == "wait" then
-		
-		-- Moderador
-		if minetest.check_player_privs(name, {server=true}) == true then
-			set_lobby_staff_inv(player)
-			
-		-- Jogador comum
-		else
-			set_lobby_normal_inv(player)
-		end
-		
-	end
-	
-end)
 
 -- String e tabela de arenas
 local arenas_st = ""
@@ -127,6 +112,13 @@ gestor.registrar_aba("battle", {
 			formspec = formspec .. "checkbox[3.5,3.5;auto_start;Inicio automatico de Batalhas;false]"
 		end
 		
+		-- Caixa de habilitar auto inscrição
+		if battle.auto_join == true then
+			formspec = formspec .. "checkbox[3.5,4;auto_join;Inscrever automaticamente para Batalhas;true]"
+		else
+			formspec = formspec .. "checkbox[3.5,4;auto_join;Inscrever automaticamente para Batalhas;false]"
+		end
+		
 		return formspec
 	end,
 	on_receive_fields = function(player, fields)
@@ -157,6 +149,18 @@ gestor.registrar_aba("battle", {
 			end
 			battle.auto_start = v
 			minetest.settings:set("battle_enable_auto_start", fields.auto_start)
+			minetest.settings:write()
+			gestor.menu_principal(name)
+		end
+		
+		-- Habilitar auto inscrição
+		if fields.auto_join then
+			local v = false
+			if fields.auto_join == "true" then 
+				v = true 
+			end
+			battle.auto_join = v
+			minetest.settings:set("battle_enable_auto_join_battle", fields.auto_join)
 			minetest.settings:write()
 			gestor.menu_principal(name)
 		end

@@ -50,30 +50,47 @@ battle.modes.shg.check_arena = function(arena)
 	return true
 end
 
-local check_game = function(game_number, tempo)
+-- Retorna jogadores para o lobby
+local send_all_to_lobby = function()
+	for name,player in pairs(battle.ingame) do
+		battle.ingame[name] = nil -- Desinscreve jogador
+		battle.join_lobby(player)
+	end
+end
+
+-- Verificar vitoria
+local check_win = function()
+	-- Verifica se resta apenas 1 vivo
+	if battle.c.count_tb(battle.ingame) > 1 then return end
 	
-	-- Verifica numero do jogo
-	if battle.game_number ~= game_number then
+	-- Encerra batalha
+	for name, winner in pairs(battle.ingame) do
+		battle.ingame[name] = nil
+		battle.join_lobby(winner)
+		minetest.chat_send_all(name.." venceu a batalha")
+	end
+	
+	battle.finish()
+end
+
+-- Verificar da partida
+battle.modes.shg.check_game = function(game_number, tempo)
+	
+	-- Verifica se partida está ativa para controle
+	if battle.game_status == false or battle.game_number ~= game_number then
 		return
 	end
 	
-	-- Verifica tempo
-	if tempo >= 600 then
+	-- Encerra partida por tempo esgotado
+	if tempo >= 30 then
+		send_all_to_lobby()
+		minetest.chat_send_all("Partida encerrada por tempo esgotado")
+		battle.finish()
 		return
-	end
-	
-	-- Verificar se ja acabaram todos os jogadores
-	if battle.game_status == false then
-		return
-	end
-	
-	-- Verificar se ainda tem jogador em jogo
-	if battle.c.count_tb(battle.ingame) == 0 then
-		return 
 	end
 	
 	-- Continua loop
-	minetest.after(30, check_game, battle.game_number, tempo+30) -- ERRADOOOOOOOOOOOOOOOOOOOOOOO
+	minetest.after(30, battle.modes.shg.check_game, battle.game_number, tempo+30)
 end
 
 -- Iniciar batalha
@@ -88,26 +105,48 @@ battle.modes.shg.start = function()
 	-- Arena
 	local arena = battle.arena.tb[battle.selec_arena]
 	
-	-- Teleporta jogadores para spawn
+	-- Prepara jogadores para iniciar jogo
 	for name,player in pairs(battle.ingame) do
+	
+		-- Retira do lobby
+		battle.leave_lobby(player)
+		
+		-- Teleporta para spawn da arena
 		player:setpos(arena.spawn)
-		sfinv.set_player_inventory_formspec(player)
+		
 	end
 	
 	battle.game_status = true
 	battle.game_number = battle.game_number + 1
 	
 	-- Iniciar loop de checagem
-	minetest.after(30, check_game, battle.game_number, 30)
+	minetest.after(30, battle.modes.shg.check_game, battle.game_number, 30)
 	
 	return true
 end
 
 -- Se desconectar sai do jogo atual
 minetest.register_on_leaveplayer(function(player)
+	
 	if battle.selec_mode == "shg" and battle.game_status == true then
 		local name = player:get_player_name()
 		battle.ingame[name] = nil
+		
+		-- Verificar vitoria
+		check_win()
 	end
+	
+end)
+
+-- Verificar mortes
+minetest.register_on_dieplayer(function(player, reason)
+	if not player then return end
+		
+	-- Remove jogador do ingame
+	battle.ingame[player:get_player_name()] = nil
+	battle.join_lobby(player)
+	
+	-- Verificar vitoria
+	check_win()
 end)
 

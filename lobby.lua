@@ -75,7 +75,7 @@ battle.join_lobby = function(player)
 		and battle.game_status == false
 		and minetest.check_player_privs(name, {server=true}) == false 
 	then
-		battle.ingame[name] = true
+		battle.ingame[name] = player
 	end
 	
 	-- Coordenada
@@ -93,7 +93,7 @@ battle.leave_lobby = function(player)
 	player:set_nametag_attributes({color = {a = 255, r = 255, g = 255, b = 255}})
 	
 	-- Remove privilegios do lobby
-	battle.c.revoke_privs(name, {fly=true, noclip=true, interact=true})
+	battle.c.grant_privs(name, {fly=true, noclip=true, interact=true})
 	
 end
 
@@ -138,6 +138,11 @@ battle.start = function()
 		return false, msg
 	end
 	
+	-- Troca loot dos nodes do mod treasures_loot_nodes
+	if minetest.get_modpath("treasures_loot_nodes") then
+		treasures_loot_nodes.reset_loot_atual()
+	end
+	
 	return true
 end
 
@@ -151,7 +156,7 @@ battle.finish = function()
 		for _,player in ipairs(minetest.get_connected_players()) do
 			local name = player:get_player_name()
 			if minetest.check_player_privs(name, {server=true}) == false then
-				battle.ingame[name] = true
+				battle.ingame[name] = player
 			end
 		end
 	end

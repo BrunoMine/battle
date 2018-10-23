@@ -11,16 +11,17 @@
 
 -- Formspec de jogador normal
 battle.set_normal_lobby_inv = function(player)
+	local formspec = ""
 	if battle.auto_join == false then 
-		local formspec = "size[3,1]"
+		formspec = "size[3,1]"
 			..default.gui_bg
 			..default.gui_bg_img
 			.."button_exit[0,0;3,1;play_battle;Jogar]"
 	else
-		local formspec = "size[7,1]"
+		formspec = "size[7,1]"
 			..default.gui_bg
 			..default.gui_bg_img
-			.."label[0,0;;Aguarde a proxima partida]"
+			.."label[0,0;Aguarde a proxima partida]"
 	end
 	player:set_inventory_formspec(formspec)
 end

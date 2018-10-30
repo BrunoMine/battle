@@ -27,6 +27,7 @@ dofile(modpath.."/banco_de_dados.lua")
 battle.modes = {}
 dofile(modpath.."/battle_modes/shg.lua")
 
+dofile(modpath.."/loot_items.lua")
 dofile(modpath.."/player.lua")
 dofile(modpath.."/lobby.lua")
 dofile(modpath.."/lobby_inv.lua")

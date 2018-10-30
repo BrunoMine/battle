@@ -4,6 +4,25 @@
 # Geral
 #
 
+#
+# Sistema de Loot
+#
+
+# Sistema de loots aleatorios de itens (requer mod treasurer)
+# System for random items loots (require treasurer mod)
+# Nodes:
+# default:chest
+battle_enable_loot (Sistema de loot de itens) bool true
+
+# Isso registra os itens comuns do proprio Minetest para aparecerem nos loots
+# This registers the common items from Minetest itself to appear in the loots
+battle_load_default_loot_itens (Itens comuns para loot) bool true
+
+# Esse Numero define o numero do loot que é incrementado 
+# a cada nova partida para sortear novos loots
+# This number defines the number of loot 
+# that is incremented with each new match to make new loots
+battle_loot_number_control (Numero de Controle do Loot) int 1
 
 
 

@@ -139,8 +139,8 @@ battle.start = function()
 	end
 	
 	-- Troca loot dos nodes do mod treasures_loot_nodes
-	if minetest.get_modpath("treasures_loot_nodes") then
-		treasures_loot_nodes.reset_loot_atual()
+	if battle.loot_status == true then
+		battle.reset_loot()
 	end
 	
 	return true

@@ -81,8 +81,14 @@ battle.modes.shg.check_game = function(game_number, tempo)
 		return
 	end
 	
+	-- Verifica se passou da hora de iniciar pvp
+	if tempo >= 120 and battle.pvp_status == false then
+		battle.set_pvp(true)
+		minetest.chat_send_all("PVP ativado")
+	end
+	
 	-- Encerra partida por tempo esgotado
-	if tempo >= 30 then
+	if tempo >= 600 then
 		send_all_to_lobby()
 		minetest.chat_send_all("Partida encerrada por tempo esgotado")
 		battle.finish()
@@ -118,6 +124,7 @@ battle.modes.shg.start = function()
 	
 	battle.game_status = true
 	battle.game_number = battle.game_number + 1
+	battle.set_pvp(false)
 	
 	-- Iniciar loop de checagem
 	minetest.after(30, battle.modes.shg.check_game, battle.game_number, 30)

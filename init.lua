@@ -22,6 +22,7 @@ local modpath = minetest.get_modpath("battle")
 
 dofile(modpath.."/common.lua")
 dofile(modpath.."/banco_de_dados.lua")
+dofile(modpath.."/pvp_control.lua")
 
 -- Modos de batalhas
 battle.modes = {}

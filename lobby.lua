@@ -150,6 +150,7 @@ end
 battle.finish = function()
 	
 	battle.game_status = false
+	battle.set_pvp(false)
 	
 	-- Inscreve todos jogadores que estao aguardando
 	if battle.auto_join == true then

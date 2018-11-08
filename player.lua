@@ -30,5 +30,9 @@ battle.player.reset = function(player)
 	
 	-- Restaura modelo de animação
 	player_api.set_model(player, "character.b3d")
+	-- Restaura visual de armadura
+	if armor then
+		default.player_set_model(player, "3d_armor_character.b3d")
+	end
 	
 end

@@ -54,6 +54,22 @@ player_api.register_model("lobby.obj", {
 battle.join_lobby = function(player)
 	local name = player:get_player_name()
 	
+	-- Remove armaduras
+	if armor then
+		local nm, armor_inv = armor:get_valid_player(player, "[join_lobby]")
+		if nm then
+			for i=1, armor_inv:get_size("armor") do
+				local stack = armor_inv:get_stack("armor", i)
+				if stack:get_count() > 0 then
+					armor:run_callbacks("on_unequip", player, i, stack)
+					armor_inv:set_stack("armor", i, nil)
+				end
+			end
+			armor:save_armor_inventory(player)
+			armor:set_player_armor(player)
+		end
+	end
+	
 	-- Define modelo de animação
 	player_api.set_model(player, "lobby.obj")
 	
@@ -93,8 +109,8 @@ battle.leave_lobby = function(player)
 	player:set_nametag_attributes({color = {a = 255, r = 255, g = 255, b = 255}})
 	
 	-- Remove privilegios do lobby
-	battle.c.grant_privs(name, {fly=true, noclip=true, interact=true})
-	
+	battle.c.revoke_privs(name, {fly=true, noclip=true})
+	battle.c.grant_privs(name, {interact=true})
 end
 
 

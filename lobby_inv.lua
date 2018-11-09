@@ -9,6 +9,9 @@
 	Inventario dos jogadores no Lobby
   ]]
 
+-- Tradutor de texto
+local S = battle.S
+
 -- Formspec de jogador normal
 battle.set_normal_lobby_inv = function(player)
 	local formspec = ""
@@ -16,12 +19,12 @@ battle.set_normal_lobby_inv = function(player)
 		formspec = "size[3,1]"
 			..default.gui_bg
 			..default.gui_bg_img
-			.."button_exit[0,0;3,1;play_battle;Jogar]"
+			.."button_exit[0,0;3,1;play_battle;"..S("Jogar").."]"
 	else
 		formspec = "size[7,1]"
 			..default.gui_bg
 			..default.gui_bg_img
-			.."label[0,0;Aguarde a proxima partida]"
+			.."label[0,0;"..S("Aguarde a proxima partida").."]"
 	end
 	player:set_inventory_formspec(formspec)
 end
@@ -83,14 +86,14 @@ end
 -- Aba de gerenciamento das partidas
 -- Registrar aba 'battle'
 gestor.registrar_aba("battle", {
-	titulo = "Batalhas",
+	titulo = S("Batalhas"),
 	get_formspec = function(name)
 		
 		-- Atualiza listas
 		update_game_modes()
 		update_arenas()
 		
-		local formspec = "label[3.5,1;Batalhas]"
+		local formspec = "label[3.5,1;"..S("Batalhas").."]"
 			.."dropdown[3.5,2.7;10.5,1;modo;"..game_modes_st..";"..game_modes_i[battle.selec_mode].."]"
 		
 		-- Seleciona o primeiro se possivel
@@ -108,16 +111,16 @@ gestor.registrar_aba("battle", {
 		
 		-- Caixa de habilitar auto inicio
 		if battle.auto_start == true then
-			formspec = formspec .. "checkbox[3.5,3.5;auto_start;Inicio automatico de Batalhas;true]"
+			formspec = formspec .. "checkbox[3.5,3.5;auto_start;"..S("Inicio automatico de Batalhas")..";true]"
 		else
-			formspec = formspec .. "checkbox[3.5,3.5;auto_start;Inicio automatico de Batalhas;false]"
+			formspec = formspec .. "checkbox[3.5,3.5;auto_start;"..S("Inicio automatico de Batalhas")..";false]"
 		end
 		
 		-- Caixa de habilitar auto inscrição
 		if battle.auto_join == true then
-			formspec = formspec .. "checkbox[3.5,4;auto_join;Inscrever automaticamente para Batalhas;true]"
+			formspec = formspec .. "checkbox[3.5,4;auto_join;"..S("Inscrever automaticamente para Batalhas")..";true]"
 		else
-			formspec = formspec .. "checkbox[3.5,4;auto_join;Inscrever automaticamente para Batalhas;false]"
+			formspec = formspec .. "checkbox[3.5,4;auto_join;"..S("Inscrever automaticamente para Batalhas")..";false]"
 		end
 		
 		return formspec

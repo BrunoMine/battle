@@ -1,0 +1,175 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-09 18:45-0200\n"
+"PO-Revision-Date: 2018-11-09 18:54-0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: arena.lua
+msgid "Arena @1"
+msgstr "Arena @1"
+
+#: arena_editor.lua
+msgid "Titulo"
+msgstr "Title"
+
+#: arena_editor.lua
+msgid "Nome exibido ao usuario"
+msgstr "Name displayed to user"
+
+#: arena_editor.lua
+msgid "Deletar"
+msgstr "Delete"
+
+#: arena_editor.lua
+msgid "Criar Arena"
+msgstr "Create Arena"
+
+#: arena_editor.lua
+msgid "Habilitar jogo"
+msgstr "Enable battle"
+
+#: arena_editor.lua
+msgid "Salvar"
+msgstr "Save"
+
+#: arena_editor.lua
+msgid "Redefinir"
+msgstr "Redefine"
+
+#: arena_editor.lua
+msgid "Teleportar"
+msgstr "Teleport"
+
+#: arena_editor.lua
+msgid "Esse titulo de arena ja foi usado"
+msgstr "This arena title is already used"
+
+#: arena_editor.lua
+msgid "Bata no primeiro limite da arena"
+msgstr "Punch the first limit block from arena"
+
+#: arena_editor.lua
+msgid "Arena Deletada"
+msgstr "Deleted Arena"
+
+#: arena_editor.lua
+msgid "Editor de Arena"
+msgstr "Arena Editor"
+
+#: arena_editor.lua
+msgid "Acesso negado"
+msgstr "Access danied"
+
+#: arena_editor.lua
+msgid "Parametro de coordenada definido"
+msgstr "Defined coordinate parameter"
+
+#: arena_editor.lua
+msgid "Precisa bater num bloco na coordenada desejada"
+msgstr "Punch the second block in the desired coordinate"
+
+#: arena_editor.lua
+msgid "Primeiro limite definido. Bata no segundo limite da arena"
+msgstr "First limi defined. Punch the second"
+
+#: arena_editor.lua
+msgid "Arena @1 criada (acesse o Editor para ajustar parametros)"
+msgstr "@1 arena created (access the Arena Editor for set params)"
+
+#: lobby.lua
+msgid "Escolha o modo e a arena"
+msgstr "Choose the mode and the arena"
+
+#: lobby.lua
+msgid "Poucos jogadores"
+msgstr "Few players"
+
+#: lobby.lua
+msgid "Excesso jogadores"
+msgstr "Too many players"
+
+#: lobby.lua
+msgid "Inicia a partida"
+msgstr "Start the battle"
+
+#: lobby.lua
+msgid "Impossivel inicar partida. @1"
+msgstr "Can not start game. @1"
+
+#: lobby.lua
+msgid "Partida iniciada"
+msgstr "Battle started"
+
+#: lobby.lua
+msgid "Aguarde o final da partida atual"
+msgstr "Wait the end of the current match"
+
+#: lobby.lua
+msgid "Todas as vagas dessa batalha ja foram preenchidas"
+msgstr "All  player slots of this battle have already been filled"
+
+#: lobby.lua
+msgid "Foste inscrito para a proxima batalha, aguarde"
+msgstr "You have registered for the next battle, wait"
+
+#: lobby_inv.lua
+msgid "Jogar"
+msgstr "Play"
+
+#: lobby_inv.lua
+msgid "Aguarde a proxima partida"
+msgstr "Wait the next battle"
+
+#: lobby_inv.lua
+msgid "Batalhas"
+msgstr "Battles"
+
+#: lobby_inv.lua
+msgid "Inicio automatico de Batalhas"
+msgstr "Auto start for battles"
+
+#: lobby_inv.lua
+msgid "Inscrever automaticamente para Batalhas"
+msgstr "Automatically Subscribe to Battles"
+
+#: battle_modes/shg.lua
+msgid "Jogos Vorazes Simples"
+msgstr "Simple Hungry Battle"
+
+#: battle_modes/shg.lua
+msgid "Spawn da Partida"
+msgstr "Battle spawn"
+
+#: battle_modes/shg.lua
+msgid "Coordenada onde os jogadores vão surgir no inicio da partida"
+msgstr "Coordinate where players will appear at the start of the match"
+
+#: battle_modes/shg.lua
+msgid "Faltou o spawn da arena"
+msgstr "Arena spawn missed"
+
+#: battle_modes/shg.lua
+msgid "@1 venceu a batalha"
+msgstr "@1 win the battle"
+
+#: battle_modes/shg.lua
+msgid "PVP ativado"
+msgstr "PVP was activated"
+
+#: battle_modes/shg.lua
+msgid "Partida encerrada por tempo esgotado"
+msgstr "Battle ended due to timeout"

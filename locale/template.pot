@@ -1,0 +1,174 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-09 18:45-0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: arena.lua
+msgid "Arena @1"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Titulo"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Nome exibido ao usuario"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Deletar"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Criar Arena"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Habilitar jogo"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Salvar"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Redefinir"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Teleportar"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Esse titulo de arena ja foi usado"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Bata no primeiro limite da arena"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Arena Deletada"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Editor de Arena"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Acesso negado"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Parametro de coordenada definido"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Precisa bater num bloco na coordenada desejada"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Primeiro limite definido. Bata no segundo limite da arena"
+msgstr ""
+
+#: arena_editor.lua
+msgid "Arena @1 criada (acesse o Editor para ajustar parametros)"
+msgstr ""
+
+#: lobby.lua
+msgid "Escolha o modo e a arena"
+msgstr ""
+
+#: lobby.lua
+msgid "Poucos jogadores"
+msgstr ""
+
+#: lobby.lua
+msgid "Excesso jogadores"
+msgstr ""
+
+#: lobby.lua
+msgid "Inicia a partida"
+msgstr ""
+
+#: lobby.lua
+msgid "Impossivel inicar partida. @1"
+msgstr ""
+
+#: lobby.lua
+msgid "Partida iniciada"
+msgstr ""
+
+#: lobby.lua
+msgid "Aguarde o final da partida atual"
+msgstr ""
+
+#: lobby.lua
+msgid "Todas as vagas dessa batalha ja foram preenchidas"
+msgstr ""
+
+#: lobby.lua
+msgid "Foste inscrito para a proxima batalha, aguarde"
+msgstr ""
+
+#: lobby_inv.lua
+msgid "Jogar"
+msgstr ""
+
+#: lobby_inv.lua
+msgid "Aguarde a proxima partida"
+msgstr ""
+
+#: lobby_inv.lua
+msgid "Batalhas"
+msgstr ""
+
+#: lobby_inv.lua
+msgid "Inicio automatico de Batalhas"
+msgstr ""
+
+#: lobby_inv.lua
+msgid "Inscrever automaticamente para Batalhas"
+msgstr ""
+
+#: battle_modes/shg.lua
+msgid "Jogos Vorazes Simples"
+msgstr ""
+
+#: battle_modes/shg.lua
+msgid "Spawn da Partida"
+msgstr ""
+
+#: battle_modes/shg.lua
+msgid "Coordenada onde os jogadores vão surgir no inicio da partida"
+msgstr ""
+
+#: battle_modes/shg.lua
+msgid "Faltou o spawn da arena"
+msgstr ""
+
+#: battle_modes/shg.lua
+msgid "@1 venceu a batalha"
+msgstr ""
+
+#: battle_modes/shg.lua
+msgid "PVP ativado"
+msgstr ""
+
+#: battle_modes/shg.lua
+msgid "Partida encerrada por tempo esgotado"
+msgstr ""

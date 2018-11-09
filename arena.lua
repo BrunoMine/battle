@@ -9,6 +9,9 @@
 	Arena de batalha
   ]]
 
+-- Tradutor de texto
+local S = battle.S
+
 -- Tabela de arena
 battle.arena = {}
 
@@ -46,7 +49,7 @@ battle.registrar_arena = function(pos1, pos2)
 	battle.arena.total = battle.arena.total + 1
 	local new_id = "arena_"..battle.arena.total
 	battle.arena.tb[new_id] = {
-		titulo = "Arena "..battle.arena.total,
+		titulo = S("Arena @1", battle.arena.total),
 		pos1 = pos1,
 		pos2 = pos2,
 		modes = {},

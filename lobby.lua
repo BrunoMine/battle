@@ -9,6 +9,9 @@
 	Lobby dos jogadores
   ]]
 
+-- Tradutor de texto
+local S = battle.S
+
 -- Tabela de participantes
 battle.ingame = {}
 
@@ -137,15 +140,15 @@ battle.start = function()
 	
 	-- Verifica jogo e arena escolhidos
 	if battle.selec_arena == nil or battle.selec_mode == nil then
-		return false, "Escolha o modo e a arena"
+		return false, S("Escolha o modo e a arena")
 	end
 	
 	-- Verifica limite de jogadores
 	if battle.c.count_tb(battle.ingame) < gm.min_players then
-		return false, "Poucos jogadores"
+		return false, S("Poucos jogadores")
 	end
 	if battle.c.count_tb(battle.ingame) > gm.max_players then
-		return false, "Excesso jogadores"
+		return false, S("Excesso jogadores")
 	end
 	
 	-- Inicia jogo
@@ -182,14 +185,14 @@ end
 
 minetest.register_chatcommand("start", {
 	params = "",
-	description = "Inicia a partida",
+	description = S("Inicia a partida"),
 	func = function(name, param)
 		local r, msg = battle.start()
 		if r == false then
-			minetest.chat_send_player(name, "Impossivel inicar partida. "..msg)
+			minetest.chat_send_player(name, S("Impossivel inicar partida. @1", msg))
 			return
 		end
-		minetest.chat_send_all("Partida iniciada")
+		minetest.chat_send_all(S("Partida iniciada"))
 	end,
 })
 
@@ -200,7 +203,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		
 		-- Partida ja em curso
 		if battle.game_status == true then
-			minetest.chat_send_player(name, "Aguarde o final da partida atual")
+			minetest.chat_send_player(name, S("Aguarde o final da partida atual"))
 			return
 		end
 		
@@ -208,13 +211,13 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		
 		-- Verifica se tem vagas
 		if battle.c.count_tb(battle.ingame) > gm.max_players then
-			minetest.chat_send_player(name, "Todas as vagas dessa batalha ja foram preenchidas")
+			minetest.chat_send_player(name, S("Todas as vagas dessa batalha ja foram preenchidas"))
 			return
 		end
 		
 		-- Inscreve
 		battle.ingame[name] = player
-		minetest.chat_send_player(name, "Foste inscrito para a proxima batalha, aguarde")
+		minetest.chat_send_player(name, S("Foste inscrito para a proxima batalha, aguarde"))
 		return
 	end
 end)

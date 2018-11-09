@@ -17,19 +17,22 @@
 	Para poucos jogadores
   ]]
 
+-- Tradutor de texto
+local S = battle.S
+
 -- Tabela do modo
 battle.modes.shg = {}
 
 -- Titulo
-battle.modes.shg.titulo = "Jogos Vorazes Simples"
+battle.modes.shg.titulo = S("Jogos Vorazes Simples")
 
 -- Parametros
 battle.modes.shg.params = {
 	-- Coordenada do Spawn da Arena
 	{
-		name = "Spawn da Partida",
+		name = S("Spawn da Partida"),
 		format = "pos",
-		desc = "Coordenada onde os jogadores vão surgir no inicio da partida",
+		desc = S("Coordenada onde os jogadores vão surgir no inicio da partida"),
 		index_name = "spawn",
 	},
 }
@@ -44,7 +47,7 @@ battle.modes.shg.check_arena = function(arena)
 	
 	-- Coordenada de spawn da arena
 	if not tb.spawn then
-		return false, "Faltou o spawn da arena"
+		return false, S("Faltou o spawn da arena")
 	end
 	
 	return true
@@ -67,7 +70,7 @@ local check_win = function()
 	for name, winner in pairs(battle.ingame) do
 		battle.ingame[name] = nil
 		battle.join_lobby(winner)
-		minetest.chat_send_all(name.." venceu a batalha")
+		minetest.chat_send_all(S("@1 venceu a batalha", name))
 	end
 	
 	battle.finish()
@@ -84,13 +87,13 @@ battle.modes.shg.check_game = function(game_number, tempo)
 	-- Verifica se passou da hora de iniciar pvp
 	if tempo >= 120 and battle.pvp_status == false then
 		battle.set_pvp(true)
-		minetest.chat_send_all("PVP ativado")
+		minetest.chat_send_all(S("PVP ativado"))
 	end
 	
 	-- Encerra partida por tempo esgotado
 	if tempo >= 600 then
 		send_all_to_lobby()
-		minetest.chat_send_all("Partida encerrada por tempo esgotado")
+		minetest.chat_send_all(S("Partida encerrada por tempo esgotado"))
 		battle.finish()
 		return
 	end

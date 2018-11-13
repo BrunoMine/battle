@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-09 18:45-0200\n"
+"POT-Creation-Date: 2018-11-12 22:33-0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,10 +58,6 @@ msgid "Esse titulo de arena ja foi usado"
 msgstr ""
 
 #: arena_editor.lua
-msgid "Bata no primeiro limite da arena"
-msgstr ""
-
-#: arena_editor.lua
 msgid "Arena Deletada"
 msgstr ""
 
@@ -79,14 +75,6 @@ msgstr ""
 
 #: arena_editor.lua
 msgid "Precisa bater num bloco na coordenada desejada"
-msgstr ""
-
-#: arena_editor.lua
-msgid "Primeiro limite definido. Bata no segundo limite da arena"
-msgstr ""
-
-#: arena_editor.lua
-msgid "Arena @1 criada (acesse o Editor para ajustar parametros)"
 msgstr ""
 
 #: lobby.lua

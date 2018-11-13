@@ -45,17 +45,16 @@ end
 		pos2 = <pos2>,
 	}
   ]]
-battle.registrar_arena = function(pos1, pos2)
+battle.registrar_arena = function()
 	battle.arena.total = battle.arena.total + 1
 	local new_id = "arena_"..battle.arena.total
 	battle.arena.tb[new_id] = {
 		titulo = S("Arena @1", battle.arena.total),
-		pos1 = pos1,
-		pos2 = pos2,
 		modes = {},
 	}
 	-- Salvar no banco de dados permanente
 	battle.arena.salvar_bd()
+	return new_id
 end
 
 -- Deletar registro de arena

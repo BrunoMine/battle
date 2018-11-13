@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-09 18:41-0200\n"
+"POT-Creation-Date: 2018-11-09 18:45-0200\n"
 "PO-Revision-Date: 2018-11-09 18:45-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -135,16 +135,16 @@ msgid "Aguarde a proxima partida"
 msgstr "Aguarde a proxima partida"
 
 #: lobby_inv.lua
+msgid "Batalhas"
+msgstr "Batalhas"
+
+#: lobby_inv.lua
 msgid "Inicio automatico de Batalhas"
 msgstr "Inicio automatico de Batalhas"
 
 #: lobby_inv.lua
 msgid "Inscrever automaticamente para Batalhas"
 msgstr "Inscrever automaticamente para Batalhas"
-
-#: lobby_inv.lua
-msgid "Batalhas]dropdown[3.5,2.7;10.5,1;modo;"
-msgstr "Batalhas]dropdown[3.5,2.7;10.5,1;modo;"
 
 #: battle_modes/shg.lua
 msgid "Jogos Vorazes Simples"
@@ -173,3 +173,6 @@ msgstr "PVP ativado"
 #: battle_modes/shg.lua
 msgid "Partida encerrada por tempo esgotado"
 msgstr "Partida encerrada por tempo esgotado"
+
+#~ msgid "Batalhas]dropdown[3.5,2.7;10.5,1;modo;"
+#~ msgstr "Batalhas]dropdown[3.5,2.7;10.5,1;modo;"

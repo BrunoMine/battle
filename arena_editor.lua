@@ -108,7 +108,7 @@ local acessar = function(player)
 		.."dropdown[0,1.1;10.5,1;modo;"..game_modes_st..";"..ac.modo.."]"
 		.."dropdown[0,0.1;5,1;arena;"..arenas_st..";"..ac.arena.."]"
 		.."button_exit[4.9,0;2,1;deletar;"..S("Deletar").."]"
-		.."button_exit[6.9,0;3,1;criar;"..S("Criar Arena").."]"
+		.."button[6.9,0;3,1;criar;"..S("Criar Arena").."]"
 		.."textlist[4.75,2;5,6;param;"..game_mode_params[ac.modo].st..";"..ac.param.."]"
 	
 	-- Painel de edição de parâmetro
@@ -255,8 +255,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		
 		-- Criar arena
 		if fields.criar then
-			acessos[name].new_pos1 = true
-			minetest.chat_send_player(name, S("Bata no primeiro limite da arena"))
+			local arena_id = battle.registrar_arena()
+			update_arenas()
+			acessos[name].arena = arenas_tbnr[battle.arena.tb[arena_id].titulo]
+			acessos[name].modo = 1
+			acessos[name].param = 1
+			acessar(player)
 			return
 		end
 		
@@ -304,30 +308,6 @@ minetest.register_craftitem("battle:arena_editor", {
 			else
 				minetest.chat_send_player(name, S("Precisa bater num bloco na coordenada desejada"))
 				return			
-			end
-		end
-		
-		-- Verifica se está definindo 
-		if acessos[name].new_pos1 == true then
-			if pointed_thing.under then
-				acessos[name].new_pos1 = battle.c.copy_tb(pointed_thing.under)
-				acessos[name].new_pos2 = true
-				minetest.chat_send_player(name, S("Primeiro limite definido. Bata no segundo limite da arena"))
-				return
-			else
-				minetest.chat_send_player(name, S("Precisa bater num bloco na coordenada desejada"))
-				return
-			end
-		end
-		if acessos[name].new_pos2 == true then
-			if pointed_thing.under then
-				acessos[name].new_pos2 = battle.c.copy_tb(pointed_thing.under)
-				battle.registrar_arena(acessos[name].new_pos1, acessos[name].new_pos2)
-				minetest.chat_send_player(name, S("Arena @1 criada (acesse o Editor para ajustar parametros)", battle.arena.total))
-				return
-			else
-				minetest.chat_send_player(name, S("Precisa bater num bloco na coordenada desejada"))
-				return
 			end
 		end
 		

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-09 18:45-0200\n"
+"POT-Creation-Date: 2018-11-12 22:33-0200\n"
 "PO-Revision-Date: 2018-11-09 18:54-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -59,10 +59,6 @@ msgid "Esse titulo de arena ja foi usado"
 msgstr "This arena title is already used"
 
 #: arena_editor.lua
-msgid "Bata no primeiro limite da arena"
-msgstr "Punch the first limit block from arena"
-
-#: arena_editor.lua
 msgid "Arena Deletada"
 msgstr "Deleted Arena"
 
@@ -81,14 +77,6 @@ msgstr "Defined coordinate parameter"
 #: arena_editor.lua
 msgid "Precisa bater num bloco na coordenada desejada"
 msgstr "Punch the second block in the desired coordinate"
-
-#: arena_editor.lua
-msgid "Primeiro limite definido. Bata no segundo limite da arena"
-msgstr "First limi defined. Punch the second"
-
-#: arena_editor.lua
-msgid "Arena @1 criada (acesse o Editor para ajustar parametros)"
-msgstr "@1 arena created (access the Arena Editor for set params)"
 
 #: lobby.lua
 msgid "Escolha o modo e a arena"
@@ -173,3 +161,12 @@ msgstr "PVP was activated"
 #: battle_modes/shg.lua
 msgid "Partida encerrada por tempo esgotado"
 msgstr "Battle ended due to timeout"
+
+#~ msgid "Bata no primeiro limite da arena"
+#~ msgstr "Punch the first limit block from arena"
+
+#~ msgid "Primeiro limite definido. Bata no segundo limite da arena"
+#~ msgstr "First limi defined. Punch the second"
+
+#~ msgid "Arena @1 criada (acesse o Editor para ajustar parametros)"
+#~ msgstr "@1 arena created (access the Arena Editor for set params)"

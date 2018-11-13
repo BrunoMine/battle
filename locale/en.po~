@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-09 18:41-0200\n"
-"PO-Revision-Date: 2018-11-09 18:23-0200\n"
+"POT-Creation-Date: 2018-11-09 18:45-0200\n"
+"PO-Revision-Date: 2018-11-09 18:54-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: arena.lua
 msgid "Arena @1"
-msgstr ""
+msgstr "Arena @1"
 
 #: arena_editor.lua
 msgid "Titulo"
@@ -71,9 +71,8 @@ msgid "Editor de Arena"
 msgstr "Arena Editor"
 
 #: arena_editor.lua
-#, fuzzy
 msgid "Acesso negado"
-msgstr "Access danied."
+msgstr "Access danied"
 
 #: arena_editor.lua
 msgid "Parametro de coordenada definido"
@@ -85,94 +84,92 @@ msgstr "Punch the second block in the desired coordinate"
 
 #: arena_editor.lua
 msgid "Primeiro limite definido. Bata no segundo limite da arena"
-msgstr "First limi defined. Punch the second."
+msgstr "First limi defined. Punch the second"
 
 #: arena_editor.lua
-#, fuzzy
 msgid "Arena @1 criada (acesse o Editor para ajustar parametros)"
-msgstr "@1 arena created. Access the Arena Editor for set params"
+msgstr "@1 arena created (access the Arena Editor for set params)"
 
 #: lobby.lua
 msgid "Escolha o modo e a arena"
-msgstr ""
+msgstr "Choose the mode and the arena"
 
 #: lobby.lua
 msgid "Poucos jogadores"
-msgstr ""
+msgstr "Few players"
 
 #: lobby.lua
-#, fuzzy
 msgid "Excesso jogadores"
-msgstr "Access danied."
+msgstr "Too many players"
 
 #: lobby.lua
 msgid "Inicia a partida"
-msgstr ""
+msgstr "Start the battle"
 
 #: lobby.lua
 msgid "Impossivel inicar partida. @1"
-msgstr ""
+msgstr "Can not start game. @1"
 
 #: lobby.lua
 msgid "Partida iniciada"
-msgstr ""
+msgstr "Battle started"
 
 #: lobby.lua
 msgid "Aguarde o final da partida atual"
-msgstr ""
+msgstr "Wait the end of the current match"
 
 #: lobby.lua
 msgid "Todas as vagas dessa batalha ja foram preenchidas"
-msgstr ""
+msgstr "All  player slots of this battle have already been filled"
 
 #: lobby.lua
 msgid "Foste inscrito para a proxima batalha, aguarde"
-msgstr ""
+msgstr "You have registered for the next battle, wait"
 
 #: lobby_inv.lua
 msgid "Jogar"
-msgstr ""
+msgstr "Play"
 
 #: lobby_inv.lua
 msgid "Aguarde a proxima partida"
-msgstr ""
+msgstr "Wait the next battle"
+
+#: lobby_inv.lua
+msgid "Batalhas"
+msgstr "Battles"
 
 #: lobby_inv.lua
 msgid "Inicio automatico de Batalhas"
-msgstr ""
+msgstr "Auto start for battles"
 
 #: lobby_inv.lua
 msgid "Inscrever automaticamente para Batalhas"
-msgstr ""
-
-#: lobby_inv.lua
-msgid "Batalhas]dropdown[3.5,2.7;10.5,1;modo;"
-msgstr ""
+msgstr "Automatically Subscribe to Battles"
 
 #: battle_modes/shg.lua
 msgid "Jogos Vorazes Simples"
-msgstr ""
+msgstr "Simple Hungry Battle"
 
 #: battle_modes/shg.lua
 msgid "Spawn da Partida"
-msgstr ""
+msgstr "Battle spawn"
 
 #: battle_modes/shg.lua
 msgid "Coordenada onde os jogadores vão surgir no inicio da partida"
-msgstr ""
+msgstr "Coordinate where players will appear at the start of the match"
 
 #: battle_modes/shg.lua
 msgid "Faltou o spawn da arena"
-msgstr ""
+msgstr "Arena spawn missed"
 
 #: battle_modes/shg.lua
 msgid "@1 venceu a batalha"
-msgstr ""
+msgstr "@1 win the battle"
 
 #: battle_modes/shg.lua
 msgid "PVP ativado"
-msgstr ""
+msgstr "PVP was activated"
 
 #: battle_modes/shg.lua
 msgid "Partida encerrada por tempo esgotado"
-msgstr ""
+msgstr "Battle ended due to timeout"

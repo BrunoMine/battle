@@ -36,13 +36,13 @@ battle.player.reset = function(player)
 	end
 	
 	-- Restaura barra de saude
-	if hb then
+	if minetest.get_modpath("hudbars") then
 		hb.unhide_hudbar(battle.ingame[name], "health")
 		hb.unhide_hudbar(battle.ingame[name], "breath")
 	end
 	
 	-- Restaura barra de fome
-	if hbhunger then
+	if minetest.get_modpath("hbhunger") then
 		hb.unhide_hudbar(battle.ingame[name], "satiation")
 	end
 end

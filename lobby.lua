@@ -32,7 +32,7 @@ battle.selec_mode = minetest.settings:get("battle_game_mode") or "shg"
 battle.selec_arena = minetest.settings:get("battle_arena") or ""
 
 -- Desativa carregamento forçado de barras do hudbars
-if hb then
+if minetest.get_modpath("hudbars") then
 	hb.settings.forceload_default_hudbars = false
 end
 
@@ -77,9 +77,9 @@ battle.reset_bars = function(name)
 	if player:get_breath() < 10 then player:set_breath(10) end
 	
 	-- Ajuste nas barras suportadas por hudbars
-	if hb then
+	if minetest.get_modpath("hudbars") then
 		-- Mod hbhunger
-		if hbhunger then
+		if minetest.get_modpath("hbhunger") then
 			-- Restaura saciedade
 			hbhunger.hunger[name] = 30
 			-- Oculta barras

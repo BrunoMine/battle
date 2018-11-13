@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-12 22:33-0200\n"
-"PO-Revision-Date: 2018-11-09 18:54-0200\n"
+"POT-Creation-Date: 2018-11-13 11:39-0200\n"
+"PO-Revision-Date: 2018-11-13 11:41-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -29,6 +29,14 @@ msgstr "Title"
 #: arena_editor.lua
 msgid "Nome exibido ao usuario"
 msgstr "Name displayed to user"
+
+#: arena_editor.lua
+msgid "Coordenada do Lobby"
+msgstr "Lobby Position"
+
+#: arena_editor.lua
+msgid "Coordenada onde quem está no lobby fica"
+msgstr "Lobby position for players in the lobby"
 
 #: arena_editor.lua
 msgid "Deletar"

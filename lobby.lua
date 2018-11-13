@@ -70,9 +70,10 @@ player_api.register_model("lobby.obj", {
 battle.reset_bars = function(name)
 	-- Verifica se jogador está em jogo
 	if battle.game_status == true and battle.ingame[name] then return end
+	local player = minetest.get_player_by_name(name)
+	if not player then return end
 	
 	-- Restaura atributos
-	local player = minetest.get_player_by_name(name)
 	if player:get_hp() < 20 then player:set_hp(20) end
 	if player:get_breath() < 10 then player:set_breath(10) end
 	
@@ -116,13 +117,12 @@ battle.join_lobby = function(player)
 	player_api.set_model(player, "lobby.obj")
 	
 	-- Da privilegio de voô e mantem voando
-	battle.c.grant_privs(name, {fly=true, noclip=true})
+	battle.c.grant_privs(name, {fly=true, fast=true, noclip=true})
 	
 	-- Oculta nome
 	player:set_nametag_attributes({color = {a = 0, r = 255, g = 255, b = 255}})
 	
 	-- Inventario e privilegios 
-	-- Moderador
 	if minetest.check_player_privs(name, {server=true}) == false then
 		battle.set_normal_lobby_inv(player)
 		battle.c.revoke_privs(name, {interact=true})
@@ -154,7 +154,7 @@ battle.leave_lobby = function(player)
 	player:set_nametag_attributes({color = {a = 255, r = 255, g = 255, b = 255}})
 	
 	-- Remove privilegios do lobby
-	battle.c.revoke_privs(name, {fly=true, noclip=true})
+	battle.c.revoke_privs(name, {fly=true, fast=true, noclip=true})
 	battle.c.grant_privs(name, {interact=true})
 end
 
@@ -178,6 +178,10 @@ end)
 battle.start = function()
 	-- Modo de jogo
 	local gm = battle.modes[battle.selec_mode]
+	
+	-- Limpa objetos
+	minetest.chat_send_all(S("Limpando arena"))
+	minetest.clear_objects("full")
 	
 	-- Verifica jogo e arena escolhidos
 	if battle.selec_arena == nil or battle.selec_mode == nil then
@@ -261,4 +265,18 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		minetest.chat_send_player(name, S("Foste inscrito para a proxima batalha, aguarde"))
 		return
 	end
+	
 end)
+
+-- Ajuste no sfinv para evitar retorno normal
+local old_cmd = sfinv.set_player_inventory_formspec
+sfinv.set_player_inventory_formspec = function(player, context)
+	-- Verifica se está com inventario de lobby
+	if minetest.check_player_privs(player:get_player_name(), {server=true}) == false
+		and battle.game_status == true and battle.ingame[player:get_player_name()]
+	then
+		return old_cmd(player, context)
+	else
+		battle.set_normal_lobby_inv(player)
+	end
+end

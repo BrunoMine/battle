@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-13 11:39-0200\n"
-"PO-Revision-Date: 2018-11-13 11:41-0200\n"
+"POT-Creation-Date: 2018-11-13 19:22-0200\n"
+"PO-Revision-Date: 2018-11-13 19:23-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -85,6 +85,10 @@ msgstr "Defined coordinate parameter"
 #: arena_editor.lua
 msgid "Precisa bater num bloco na coordenada desejada"
 msgstr "Punch the second block in the desired coordinate"
+
+#: lobby.lua
+msgid "Limpando arena"
+msgstr "Cleaning arena"
 
 #: lobby.lua
 msgid "Escolha o modo e a arena"

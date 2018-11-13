@@ -35,4 +35,14 @@ battle.player.reset = function(player)
 		default.player_set_model(player, "3d_armor_character.b3d")
 	end
 	
+	-- Restaura barra de saude
+	if hb then
+		hb.unhide_hudbar(battle.ingame[name], "health")
+		hb.unhide_hudbar(battle.ingame[name], "breath")
+	end
+	
+	-- Restaura barra de fome
+	if hbhunger then
+		hb.unhide_hudbar(battle.ingame[name], "satiation")
+	end
 end

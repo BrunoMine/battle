@@ -31,6 +31,11 @@ battle.selec_mode = minetest.settings:get("battle_game_mode") or "shg"
 -- Arena selecionada
 battle.selec_arena = minetest.settings:get("battle_arena") or ""
 
+-- Desativa carregamento forçado de barras do hudbars
+if hb then
+	hb.settings.forceload_default_hudbars = false
+end
+
 -- Spawn
 battle.get_lobby_pos = function()
 	local lobby_pos = minetest.string_to_pos(minetest.settings:get("static_spawnpoint") or "0 20 0")
@@ -61,6 +66,31 @@ player_api.register_model("lobby.obj", {
 	eye_height = 0.1,
 })
 
+-- Loop para impedir fome crescer
+battle.reset_bars = function(name)
+	-- Verifica se jogador está em jogo
+	if battle.game_status == true and battle.ingame[name] then return end
+	
+	-- Restaura atributos
+	local player = minetest.get_player_by_name(name)
+	if player:get_hp() < 20 then player:set_hp(20) end
+	if player:get_breath() < 10 then player:set_breath(10) end
+	
+	-- Ajuste nas barras suportadas por hudbars
+	if hb then
+		-- Mod hbhunger
+		if hbhunger then
+			-- Restaura saciedade
+			hbhunger.hunger[name] = 30
+			-- Oculta barras
+			hb.hide_hudbar(minetest.get_player_by_name(name), "satiation")
+		end
+		-- Barras padrão
+		hb.hide_hudbar(player, "health")
+		hb.hide_hudbar(player, "breath")
+	end
+	minetest.after(15, battle.reset_bars, name)
+end
 
 -- Colocar jogador no lobby
 battle.join_lobby = function(player)
@@ -106,6 +136,9 @@ battle.join_lobby = function(player)
 		battle.ingame[name] = player
 	end
 	
+	-- Inicia loop que impede atributos alterarem
+	minetest.after(1.5, battle.reset_bars, name)
+	
 	-- Coordenada
 	player:setpos(battle.get_lobby_pos())
 end
@@ -124,7 +157,6 @@ battle.leave_lobby = function(player)
 	battle.c.revoke_privs(name, {fly=true, noclip=true})
 	battle.c.grant_privs(name, {interact=true})
 end
-
 
 -- Direciona o jogador ao entrar no servidor
 minetest.register_on_joinplayer(function(player)

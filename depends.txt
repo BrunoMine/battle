@@ -4,3 +4,5 @@ gestor
 treasurer?
 3d_armor?
 shields?
+hbhunger?
+hudbars?

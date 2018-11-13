@@ -32,7 +32,16 @@ battle.selec_mode = minetest.settings:get("battle_game_mode") or "shg"
 battle.selec_arena = minetest.settings:get("battle_arena") or ""
 
 -- Spawn
-local lobby_pos = minetest.string_to_pos(minetest.settings:get("static_spawnpoint") or "0 20 0")
+battle.get_lobby_pos = function()
+	local lobby_pos = minetest.string_to_pos(minetest.settings:get("static_spawnpoint") or "0 20 0")
+	if battle.selec_arena ~= "" 
+		and battle.arena.tb[battle.selec_arena]
+		and battle.arena.tb[battle.selec_arena].lobby_pos
+	then
+		lobby_pos = battle.arena.tb[battle.selec_arena].lobby_pos
+	end
+	return lobby_pos
+end
 
 -- Registra modelo de lobby
 player_api.register_model("lobby.obj", {
@@ -98,7 +107,7 @@ battle.join_lobby = function(player)
 	end
 	
 	-- Coordenada
-	player:setpos(lobby_pos)
+	player:setpos(battle.get_lobby_pos())
 end
 
 -- Tirar jogador do lobby

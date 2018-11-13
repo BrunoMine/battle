@@ -41,8 +41,6 @@ end
 --[[
 	["nome_arena"] = {
 		titulo = "Titulo",
-		pos1 = <pos1>,
-		pos2 = <pos2>,
 	}
   ]]
 battle.registrar_arena = function()

@@ -106,7 +106,7 @@ gestor.registrar_aba("battle", {
 		if battle.selec_arena ~= "" and arenas_i[battle.selec_arena] then
 			formspec = formspec.."dropdown[3.5,1.7;10.5,1;arena;"..arenas_st..";"..arenas_i[battle.selec_arena].."]"
 		else
-			formspec = formspec.."dropdown[3.5,1.7;10.5,1;arena;;]"
+			formspec = formspec.."dropdown[3.5,1.7;10.5,1;arena;"..arenas_st..";]"
 		end
 		
 		-- Caixa de habilitar auto inicio

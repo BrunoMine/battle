@@ -41,6 +41,17 @@ local update_game_mode_params = function(id, n)
 		desc = S("Nome exibido ao usuario"),
 		index_name = "titulo",
 	}
+	-- Lobby pos
+	game_mode_params[n].st = game_mode_params[n].st .. "," .. S("Coordenada do Lobby")
+	table.insert(game_mode_params[n].tbn, S("Coordenada do Lobby"))
+	game_mode_params[n].tb[S("Coordenada do Lobby")] = id
+	game_mode_params[n].tbnr[S("Coordenada do Lobby")] = table.maxn(game_mode_params[n].tbn)
+	game_mode_params[n].dados[S("Coordenada do Lobby")] = {
+		name = S("Coordenada do Lobby"),
+		format = "pos",
+		desc = S("Coordenada onde quem está no lobby fica"),
+		index_name = "lobby_pos",
+	}
 	-- Demais parametros
 	for id,d in pairs(battle.modes[id].params) do
 		game_mode_params[n].st = game_mode_params[n].st .. "," .. d.name

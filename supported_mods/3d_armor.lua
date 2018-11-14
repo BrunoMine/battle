@@ -26,6 +26,10 @@ battle.register_on_join_lobby(function(player)
 	end
 end)
 
+battle.register_on_player_reset(function(player)
+	default.player_set_model(player, "3d_armor_character.b3d")
+end)
+
 -- Carregar armaduras
 if minetest.get_modpath("treasurer") 
 	and minetest.settings:get("battle_load_armor_loot_itens") ~= "false" then

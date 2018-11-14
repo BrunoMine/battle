@@ -16,15 +16,17 @@ local S = battle.S
 battle.set_normal_lobby_inv = function(player)
 	local formspec = ""
 	if battle.auto_join == false then 
-		formspec = "size[3,1]"
+		formspec = "size[6,1]"
 			..default.gui_bg
 			..default.gui_bg_img
 			.."button_exit[0,0;3,1;play_battle;"..S("Jogar").."]"
+			.."button_exit[3,0;3,1;treinar;"..S("Treinar").."]"
 	else
-		formspec = "size[7,1]"
+		formspec = "size[7,2]"
 			..default.gui_bg
 			..default.gui_bg_img
 			.."label[0,0;"..S("Aguarde a proxima partida").."]"
+			.."button_exit[2,1;3,1;treinar;"..S("Treinar").."]"
 	end
 	player:set_inventory_formspec(formspec)
 end

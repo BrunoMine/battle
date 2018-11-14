@@ -114,10 +114,20 @@ battle.join_lobby = function(player)
 	-- Oculta nome
 	player:set_nametag_attributes({color = {a = 0, r = 255, g = 255, b = 255}})
 	
-	-- Inventario e privilegios 
-	if minetest.check_player_privs(name, {server=true}) == false then
-		battle.set_normal_lobby_inv(player)
+	-- Inventario e privilegios
+	-- Moderadores
+	if minetest.check_player_privs(player:get_player_name(), {server=true}) == true then
+		
+		battle.c.grant_privs(name, {interact=true})
+		
+	-- Em jogo
+	elseif battle.game_status == true and battle.ingame[player:get_player_name()] then
+		battle.c.grant_privs(name, {interact=true})
+		
+	-- Em lobby
+	else
 		battle.c.revoke_privs(name, {interact=true})
+		battle.set_normal_lobby_inv(player)
 	end
 	
 	-- Inscreve para a proxima partida automaticamente se definido
@@ -256,6 +266,29 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		battle.ingame[name] = player
 		minetest.chat_send_player(name, S("Foste inscrito para a proxima batalha, aguarde"))
 		return
+	
+	elseif fields.treinar then
+		local name = player:get_player_name()
+		
+		-- Verifica se a arena está em uso (seja qual for)
+		if battle.game_status == true then
+			minetest.chat_send_player(name, S("Arena em uso, aguarde"))
+			return
+		end
+		
+		-- Verifica se a arena permite treino
+		if battle.arena.tb[battle.selec_arena].modes.treino ~= true then
+			minetest.chat_send_player(name, S("A arena atual não permite treino"))
+			return
+		end
+		
+		-- Inscreve
+		battle.ingame[name] = player
+		local r, msg = battle.start()
+		if r == false then
+			minetest.chat_send_player(name, S("Impossivel inicar partida. @1", msg))
+			return
+		end
 	end
 	
 end)
@@ -263,11 +296,16 @@ end)
 -- Ajuste no sfinv para evitar retorno normal
 local old_cmd = sfinv.set_player_inventory_formspec
 sfinv.set_player_inventory_formspec = function(player, context)
-	-- Verifica se está com inventario de lobby
-	if minetest.check_player_privs(player:get_player_name(), {server=true}) == false
-		and battle.game_status == true and battle.ingame[player:get_player_name()]
-	then
+
+	-- Moderadores
+	if minetest.check_player_privs(player:get_player_name(), {server=true}) == true then
 		return old_cmd(player, context)
+	
+	-- Em jogo
+	elseif battle.game_status == true and battle.ingame[player:get_player_name()] then
+		return old_cmd(player, context)
+		
+	-- Em lobby
 	else
 		battle.set_normal_lobby_inv(player)
 	end

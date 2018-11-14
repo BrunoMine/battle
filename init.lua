@@ -28,6 +28,7 @@ dofile(modpath.."/tradutor.lua")
 -- Modos de batalhas
 battle.modes = {}
 dofile(modpath.."/battle_modes/shg.lua")
+dofile(modpath.."/battle_modes/treino.lua")
 
 dofile(modpath.."/loot_items.lua")
 dofile(modpath.."/player.lua")

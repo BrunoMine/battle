@@ -1,1 +1,1 @@
-init.lua arena.lua arena_editor.lua lobby.lua lobby_inv.lua battle_modes/shg.lua
+init.lua arena.lua arena_editor.lua lobby.lua lobby_inv.lua battle_modes/shg.lua battle_modes/treino.lua

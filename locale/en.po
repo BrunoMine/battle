@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-13 19:22-0200\n"
-"PO-Revision-Date: 2018-11-13 19:23-0200\n"
+"POT-Creation-Date: 2018-11-14 19:52-0200\n"
+"PO-Revision-Date: 2018-11-14 20:00-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -126,9 +126,21 @@ msgstr "All  player slots of this battle have already been filled"
 msgid "Foste inscrito para a proxima batalha, aguarde"
 msgstr "You have registered for the next battle, wait"
 
+#: lobby.lua
+msgid "Arena em uso, aguarde"
+msgstr "Arena in use, please wait"
+
+#: lobby.lua
+msgid "A arena atual não permite treino"
+msgstr "This arena does not allow training"
+
 #: lobby_inv.lua
 msgid "Jogar"
 msgstr "Play"
+
+#: lobby_inv.lua
+msgid "Treinar"
+msgstr "Practice"
 
 #: lobby_inv.lua
 msgid "Aguarde a proxima partida"
@@ -173,6 +185,34 @@ msgstr "PVP was activated"
 #: battle_modes/shg.lua
 msgid "Partida encerrada por tempo esgotado"
 msgstr "Battle ended due to timeout"
+
+#: battle_modes/treino.lua
+msgid "Treinamento"
+msgstr "Practice"
+
+#: battle_modes/treino.lua
+msgid "Spawn do Treino"
+msgstr "Spawn of Training"
+
+#: battle_modes/treino.lua
+msgid "Coordenada onde o jogador aparece no mapa"
+msgstr "Coordinate where the player spawn on the map"
+
+#: battle_modes/treino.lua
+msgid "Faltou o spawn do treino"
+msgstr "Missed training spawn"
+
+#: battle_modes/treino.lua
+msgid "Treino encerrado"
+msgstr "Practice ended"
+
+#: battle_modes/treino.lua
+msgid "Tempo de treino esgotado"
+msgstr "Practice time finished"
+
+#: battle_modes/treino.lua
+msgid "Treino iniciado"
+msgstr "Practice started"
 
 #~ msgid "Bata no primeiro limite da arena"
 #~ msgstr "Punch the first limit block from arena"

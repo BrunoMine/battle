@@ -37,3 +37,9 @@ dofile(modpath.."/arena.lua")
 dofile(modpath.."/arena_editor.lua")
 dofile(modpath.."/auto_start.lua")
 
+-- Mods Suportados
+dofile(modpath.."/supported_mods/default.lua")
+dofile(modpath.."/supported_mods/hudbars.lua")
+dofile(modpath.."/supported_mods/hbhunger.lua")
+dofile(modpath.."/supported_mods/3d_armor.lua")
+

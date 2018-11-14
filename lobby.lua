@@ -66,7 +66,12 @@ player_api.register_model("lobby.obj", {
 	eye_height = 0.1,
 })
 
--- Loop para impedir fome crescer
+-- Chamada ao resetar atributos
+local registered_on_reset_bars = {}
+battle.register_on_reset_bars = function(func)
+	table.insert(registered_on_reset_bars, func)
+end
+
 battle.reset_bars = function(name)
 	-- Verifica se jogador está em jogo
 	if battle.game_status == true and battle.ingame[name] then return end
@@ -77,40 +82,27 @@ battle.reset_bars = function(name)
 	if player:get_hp() < 20 then player:set_hp(20) end
 	if player:get_breath() < 10 then player:set_breath(10) end
 	
-	-- Ajuste nas barras suportadas por hudbars
-	if minetest.get_modpath("hudbars") then
-		-- Mod hbhunger
-		if minetest.get_modpath("hbhunger") then
-			-- Restaura saciedade
-			hbhunger.hunger[name] = 30
-			-- Oculta barras
-			hb.hide_hudbar(minetest.get_player_by_name(name), "satiation")
-		end
-		-- Barras padrão
-		hb.hide_hudbar(player, "health")
-		hb.hide_hudbar(player, "breath")
+	-- Executa chamadas registradas
+	for _,func in ipairs(registered_on_reset_bars) do
+		func(name)
 	end
+	
 	minetest.after(15, battle.reset_bars, name)
+end
+
+-- Chamada ao entrar no lobby
+local registered_on_join_lobby = {}
+battle.register_on_join_lobby = function(func)
+	table.insert(registered_on_join_lobby, func)
 end
 
 -- Colocar jogador no lobby
 battle.join_lobby = function(player)
 	local name = player:get_player_name()
 	
-	-- Remove armaduras
-	if armor then
-		local nm, armor_inv = armor:get_valid_player(player, "[join_lobby]")
-		if nm then
-			for i=1, armor_inv:get_size("armor") do
-				local stack = armor_inv:get_stack("armor", i)
-				if stack:get_count() > 0 then
-					armor:run_callbacks("on_unequip", player, i, stack)
-					armor_inv:set_stack("armor", i, nil)
-				end
-			end
-			armor:save_armor_inventory(player)
-			armor:set_player_armor(player)
-		end
+	-- Executa chamadas registradas
+	for _,func in ipairs(registered_on_join_lobby) do
+		func(player)
 	end
 	
 	-- Define modelo de animação

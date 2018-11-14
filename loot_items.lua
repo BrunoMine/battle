@@ -35,7 +35,7 @@ end
 
 -- Pega configuração fornecida pelo arquivo minetest.conf para editar itens especificos registrados por padrão
 -- Exemplo: battle_set_item_loot_farming_bread = 0.600 4 1-10 nil
-local get_loot_item_settings = function(name)
+battle.get_loot_item_settings = function(name)
 	local st = minetest.settings:get("battle_set_item_loot_"..string.gsub(name, ":", "_"))
 	if not st then return false end
 	if st == "disable" then return true end
@@ -78,77 +78,9 @@ if minetest.settings:get("battle_load_default_loot_itens") ~= "false" then
 		{"default:sword_mese",		0.080,		8,		nil,		{1000,65000}	},
 		{"default:sword_diamond",	0.020,		10,		nil,		{1000,65000}	},
 	}) do
-		local d_set = get_loot_item_settings(d[1])
+		local d_set = battle.get_loot_item_settings(d[1])
 		if d_set == false then
 			treasurer.register_treasure(unpack(d))
-		end
-	end
-end
-
--- Carrega armaduras
--- Verifica se mod treasurer está ativo para continuar
-if minetest.get_modpath("3d_armor") 
-	and minetest.settings:get("battle_load_armor_loot_itens") ~= "false" 
-then
-	for _,d in ipairs({
-	--	itemstring				raridade	preciosidade	qtd min e max	desgaste para ferramentas min e max
-	--	"modname:item"				0.001 ~ 1.000	1 ~ 10		1 ~ 99		0 ~ 65535
-		{"3d_armor:helmet_wood",		0.200,		1,		nil,		{1000,65000}	},
-		{"3d_armor:chestplate_wood",		0.200,		1,		nil,		{1000,65000}	},
-		{"3d_armor:leggings_wood",		0.200,		1,		nil,		{1000,65000}	},
-		{"3d_armor:boots_wood",			0.200,		1,		nil,		{1000,65000}	},
-		
-		{"3d_armor:helmet_cactus",		0.180,		1,		nil,		{1000,65000}	},
-		{"3d_armor:chestplate_cactus",		0.180,		1,		nil,		{1000,65000}	},
-		{"3d_armor:leggings_cactus",		0.180,		1,		nil,		{1000,65000}	},
-		{"3d_armor:boots_cactus",		0.180,		1,		nil,		{1000,65000}	},
-		
-		{"3d_armor:helmet_steel",		0.100,		4,		nil,		{1000,65000}	},
-		{"3d_armor:chestplate_steel",		0.100,		4,		nil,		{1000,65000}	},
-		{"3d_armor:leggings_steel",		0.100,		4,		nil,		{1000,65000}	},
-		{"3d_armor:boots_steel",		0.100,		4,		nil,		{1000,65000}	},
-		
-		{"3d_armor:helmet_bronze",		0.050,		7,		nil,		{1000,65000}	},
-		{"3d_armor:chestplate_bronze",		0.050,		7,		nil,		{1000,65000}	},
-		{"3d_armor:leggings_bronze",		0.050,		7,		nil,		{1000,65000}	},
-		{"3d_armor:boots_bronze",		0.050,		7,		nil,		{1000,65000}	},
-		
-		{"3d_armor:helmet_diamond",		0.025,		10,		nil,		{1000,65000}	},
-		{"3d_armor:chestplate_diamond",		0.025,		10,		nil,		{1000,65000}	},
-		{"3d_armor:leggings_diamond",		0.025,		10,		nil,		{1000,65000}	},
-		{"3d_armor:boots_diamond",		0.025,		10,		nil,		{1000,65000}	},
-		
-		{"3d_armor:helmet_gold",		0.015,		9,		nil,		{1000,65000}	},
-		{"3d_armor:chestplate_gold",		0.015,		9,		nil,		{1000,65000}	},
-		{"3d_armor:leggings_gold",		0.015,		9,		nil,		{1000,65000}	},
-		{"3d_armor:boots_gold",			0.015,		9,		nil,		{1000,65000}	},
-		
-		{"3d_armor:helmet_mithril",		0.015,		10,		nil,		{1000,65000}	},
-		{"3d_armor:chestplate_mithril",		0.015,		10,		nil,		{1000,65000}	},
-		{"3d_armor:leggings_mithril",		0.015,		10,		nil,		{1000,65000}	},
-		{"3d_armor:boots_mithril",		0.015,		10,		nil,		{1000,65000}	},
-		
-		{"3d_armor:helmet_crystal",		0.015,		10,		nil,		{1000,65000}	},
-		{"3d_armor:chestplate_crystal",		0.015,		10,		nil,		{1000,65000}	},
-		{"3d_armor:leggings_crystal",		0.015,		10,		nil,		{1000,65000}	},
-		{"3d_armor:boots_crystal",		0.015,		10,		nil,		{1000,65000}	},
-		
-		{"shields:shield_wood",			0.200,		10,		nil,		{1000,65000}	},
-		{"shields:shield_enhanced_wood",	0.180,		10,		nil,		{1000,65000}	},
-		{"shields:shield_cactus",		0.200,		10,		nil,		{1000,65000}	},
-		{"shields:shield_enhanced_cactus",	0.180,		10,		nil,		{1000,65000}	},
-		{"shields:shield_steel",		0.100,		10,		nil,		{1000,65000}	},
-		{"shields:shield_bronze",		0.050,		10,		nil,		{1000,65000}	},
-		{"shields:shield_diamond",		0.015,		10,		nil,		{1000,65000}	},
-		{"shields:shield_gold",			0.015,		9,		nil,		{1000,65000}	},
-		{"shields:shield_mithril",		0.015,		10,		nil,		{1000,65000}	},
-		{"shields:shield_crystal",		0.015,		10,		nil,		{1000,65000}	},
-	}) do
-		if minetest.registered_tools[d[1]] then
-			local d_set = get_loot_item_settings(d[1])
-			if d_set == false then
-				treasurer.register_treasure(unpack(d))
-			end
 		end
 	end
 end

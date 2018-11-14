@@ -15,3 +15,8 @@ battle.register_on_reset_bars(function(name)
 	hb.hide_hudbar(player, "health")
 	hb.hide_hudbar(player, "breath")
 end)
+
+battle.register_on_player_reset(function(player)
+	hb.unhide_hudbar(player, "health")
+	hb.unhide_hudbar(player, "breath")
+end)

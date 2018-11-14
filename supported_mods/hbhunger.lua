@@ -17,3 +17,7 @@ battle.register_on_reset_bars(function(name)
 	-- Oculta barras
 	hb.hide_hudbar(minetest.get_player_by_name(name), "satiation")
 end)
+
+battle.register_on_player_reset(function(player)
+	hb.unhide_hudbar(player, "satiation")
+end)

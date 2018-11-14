@@ -12,6 +12,12 @@
 -- Tabela de metodos
 battle.player = {}
 
+-- Chamada ao resetar jogador
+local registered_on_player_reset = {}
+battle.register_on_player_reset = function(func)
+	table.insert(registered_on_player_reset, func)
+end
+
 -- Resetar jogador
 battle.player.reset = function(player)
 	
@@ -35,14 +41,8 @@ battle.player.reset = function(player)
 		default.player_set_model(player, "3d_armor_character.b3d")
 	end
 	
-	-- Restaura barra de saude
-	if minetest.get_modpath("hudbars") then
-		hb.unhide_hudbar(battle.ingame[name], "health")
-		hb.unhide_hudbar(battle.ingame[name], "breath")
-	end
-	
-	-- Restaura barra de fome
-	if minetest.get_modpath("hbhunger") then
-		hb.unhide_hudbar(battle.ingame[name], "satiation")
+	-- Executa chamadas registradas
+	for _,func in ipairs(registered_on_player_reset) do
+		func(player)
 	end
 end

@@ -11,11 +11,12 @@
 
 if minetest.get_modpath("hbhunger") == nil then return end
 
-battle.register_on_reset_bars(function(name)
+battle.register_on_reset_bars(function(player)
+	local name = player:get_player_name()
 	-- Restaura saciedade
 	hbhunger.hunger[name] = 30
 	-- Oculta barras
-	hb.hide_hudbar(minetest.get_player_by_name(name), "satiation")
+	hb.hide_hudbar(player, "satiation")
 end)
 
 battle.register_on_player_reset(function(player)

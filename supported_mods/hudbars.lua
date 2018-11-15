@@ -11,7 +11,7 @@
 
 if minetest.get_modpath("hudbars") == nil then return end
 
-battle.register_on_reset_bars(function(name)
+battle.register_on_reset_bars(function(player)
 	hb.hide_hudbar(player, "health")
 	hb.hide_hudbar(player, "breath")
 end)

@@ -84,7 +84,7 @@ battle.reset_bars = function(name)
 	
 	-- Executa chamadas registradas
 	for _,func in ipairs(registered_on_reset_bars) do
-		func(name)
+		func(player)
 	end
 	
 	minetest.after(15, battle.reset_bars, name)

@@ -43,4 +43,5 @@ dofile(modpath.."/supported_mods/default.lua")
 dofile(modpath.."/supported_mods/hudbars.lua")
 dofile(modpath.."/supported_mods/hbhunger.lua")
 dofile(modpath.."/supported_mods/3d_armor.lua")
+dofile(modpath.."/supported_mods/armatesla.lua")
 

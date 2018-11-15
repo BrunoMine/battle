@@ -20,7 +20,11 @@ battle_load_default_loot_itens (Itens comuns para loot) bool true
 
 # Isso registra as armaduras do proprio mod 3d_armor para aparecerem nos loots
 # This registers the armors from 3d_armor mod itself to appear in the loots
-battle_load_armor_loot_itens (Armaduras para loot) bool true
+battle_load_armor_loot_itens (Loot para 3d_armor) bool true
+
+# Isso registra as armaduras do proprio mod armatesla para aparecerem nos loots
+# This registers the armors from armatesla mod itself to appear in the loots
+battle_load_armatesla_loot_itens (Loot para Armatesla) bool true
 
 # Esse Numero define o numero do loot que é incrementado 
 # a cada nova partida para sortear novos loots

@@ -42,25 +42,18 @@ battle.modes.treino.check_arena = function(arena)
 	local tb = battle.arena.tb[arena]
 	
 	-- Coordenada de spawn da arena
-	if not tb.spawn then
+	if not tb.spawn_treino then
 		return false, S("Faltou o spawn do treino")
 	end
 	
 	return true
 end
 
--- Retorna jogadores para o lobby
-local send_all_to_lobby = function()
-	for name,player in pairs(battle.ingame) do
-		battle.ingame[name] = nil -- Desinscreve jogador
-		battle.join_lobby(player)
-	end
-end
 
 -- Verificar vitoria
 local check_end = function()
-	-- Verifica se resta apenas 1 vivo
-	if battle.c.count_tb(battle.ingame) == 0 then return end
+	-- Verifica se zerou jogadores em treino
+	if battle.c.count_tb(battle.ingame) > 0 then return end
 	
 	-- Encerra treino
 	minetest.chat_send_all(S("Treino encerrado", name))
@@ -106,7 +99,7 @@ battle.modes.treino.start = function()
 		battle.leave_lobby(player)
 		
 		-- Teleporta para spawn da arena
-		player:setpos(arena.spawn)
+		player:setpos(arena.spawn_treino)
 		
 	end
 	

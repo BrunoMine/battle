@@ -75,13 +75,15 @@ local update_game_modes = function()
 	game_modes_i = {}
 	local i = 0
 	for id,d in pairs(battle.modes) do
-		if game_modes_st ~= "" then game_modes_st = game_modes_st .. "," end
-		game_modes_st = game_modes_st .. d.titulo
-		table.insert(game_modes_tbn, d.titulo)
-		game_modes_tb[d.titulo] = id
-		game_modes_tbnr[d.titulo] = table.maxn(game_modes_tbn)
-		i = i + 1
-		game_modes_i[id] = i
+		if id ~= "treino" then
+			if game_modes_st ~= "" then game_modes_st = game_modes_st .. "," end
+			game_modes_st = game_modes_st .. d.titulo
+			table.insert(game_modes_tbn, d.titulo)
+			game_modes_tb[d.titulo] = id
+			game_modes_tbnr[d.titulo] = table.maxn(game_modes_tbn)
+			i = i + 1
+			game_modes_i[id] = i
+		end
 	end
 end
 

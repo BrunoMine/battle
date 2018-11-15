@@ -20,8 +20,14 @@ end
 
 -- Ao reduzir saude
 minetest.register_on_player_hpchange(function(player, hp_change)
-	if battle.pvp_status == false and hp_change < 0 then
-		return 0
+	-- Caso o PVP esteja desativado
+	if hp_change < 0 then
+		if battle.pvp_status == false then return 0 end
+		
+		-- Jogadores no lobby durante partida
+		if battle.game_status == true and battle.ingame[player:get_player_name()] == nil then
+			return 0
+		end
 	end
 	return hp_change
 end, true)

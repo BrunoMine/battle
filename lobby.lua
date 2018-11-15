@@ -215,6 +215,7 @@ end
 -- Encerra batalha
 battle.finish = function()
 	
+	battle.selec_mode = minetest.settings:get("battle_game_mode") or "shg"
 	battle.game_status = false
 	battle.set_pvp(false)
 	
@@ -281,6 +282,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			minetest.chat_send_player(name, S("A arena atual não permite treino"))
 			return
 		end
+		
+		battle.selec_mode = "treino"
 		
 		-- Inscreve
 		battle.ingame[name] = player

@@ -53,14 +53,6 @@ battle.modes.shg.check_arena = function(arena)
 	return true
 end
 
--- Retorna jogadores para o lobby
-local send_all_to_lobby = function()
-	for name,player in pairs(battle.ingame) do
-		battle.ingame[name] = nil -- Desinscreve jogador
-		battle.join_lobby(player)
-	end
-end
-
 -- Verificar vitoria
 local check_win = function()
 	-- Verifica se resta apenas 1 vivo
@@ -92,7 +84,6 @@ battle.modes.shg.check_game = function(game_number, tempo)
 	
 	-- Encerra partida por tempo esgotado
 	if tempo >= 600 then
-		send_all_to_lobby()
 		minetest.chat_send_all(S("Partida encerrada por tempo esgotado"))
 		battle.finish()
 		return

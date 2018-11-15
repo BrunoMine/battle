@@ -126,6 +126,8 @@ battle.join_lobby = function(player)
 		
 	-- Em lobby
 	else
+		-- Remove inventarios
+		battle.c.clear_inv(player:get_inventory(), "main")
 		battle.c.revoke_privs(name, {interact=true})
 		battle.set_normal_lobby_inv(player)
 	end
@@ -212,12 +214,23 @@ battle.start = function()
 	return true
 end
 
+-- Retorna jogadores para o lobby
+local send_all_to_lobby = function()
+	for name,player in pairs(battle.ingame) do
+		battle.ingame[name] = nil -- Desinscreve jogador
+		battle.join_lobby(player)
+	end
+end
+
 -- Encerra batalha
 battle.finish = function()
 	
 	battle.selec_mode = minetest.settings:get("battle_game_mode") or "shg"
 	battle.game_status = false
 	battle.set_pvp(false)
+	
+	-- Tira todos os jogadores em jogo e envia para o lobby
+	send_all_to_lobby()
 	
 	-- Inscreve todos jogadores que estao aguardando
 	if battle.auto_join == true then

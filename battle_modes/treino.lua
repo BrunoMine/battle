@@ -49,6 +49,13 @@ battle.modes.treino.check_arena = function(arena)
 	return true
 end
 
+-- Retorna jogadores para o lobby
+local send_all_to_lobby = function()
+	for name,player in pairs(battle.ingame) do
+		battle.ingame[name] = nil -- Desinscreve jogador
+		battle.join_lobby(player)
+	end
+end
 
 -- Verificar vitoria
 local check_end = function()
